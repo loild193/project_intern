@@ -1,23 +1,36 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import LoginForm from '../../auth/Login/LoginForm';
 import RegisterForm from '../../auth/RegisterForm';
 import Logo from '../../../assets/images/logo.png'
 
 import './Auth.css'
+import { AuthContext } from '../../../contexts/authContext';
+import Loading from '../../common/Loading';
+import { Redirect } from 'react-router';
 
 function Auth({ authRoute }) {
+	const { 
+		authState: { authLoading, isAuthenticated },
+	} = useContext(AuthContext);
 	let body;
 
-	body = (
-		<>
-			{
-				authRoute === "login" 
-				? <LoginForm />
-				: <RegisterForm />
-			}
-		</>
-	)
+	if (authLoading)
+		body = (
+			<Loading />
+		)
+	else if (isAuthenticated)
+		return <Redirect to="/dashboard" />
+	else 
+		body = (
+			<>
+				{
+					authRoute === "login" 
+					? <LoginForm />
+					: <RegisterForm />
+				}
+			</>
+		)
 
 	return (
 		<div className="auth">

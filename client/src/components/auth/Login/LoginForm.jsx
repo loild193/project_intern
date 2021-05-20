@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import FormControl from '@material-ui/core/FormControl';
@@ -8,14 +8,21 @@ import './Login.css'
 import { marginStyle } from '../../../customStyles/customStyles';
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/authContext';
+import MyAlert from '../../common/MyAlert';
 
 function LoginForm(props) {
+	const { normalLogin } = useContext(AuthContext);
 	const [formValue, setFormValue] = useState({
 		email: "",
 		password: "",
 		isRemember: false,
 	});
 	const { email, password, isRemember } = formValue;
+	const [error, setError] = useState({
+		openAlert: false,
+		errorMessage: "",
+	});
 	const marginStyles = marginStyle();
 	const marginClassName = clsx(marginStyles.marginTop20px);
 
@@ -33,15 +40,41 @@ function LoginForm(props) {
 		});
 	}
 
+	const onSetCloseAlert = () => {
+		setError({
+			...error,
+			openAlert: false,
+		});
+	}
+
 	const handleLogin = event => {
 		event.preventDefault();
-		console.log(formValue);
-		// handle login here
+		if (email.includes("@gmail.com") === false) {
+			setError({
+				...error,
+				openAlert: true,
+				errorMessage: "Wrong format email",
+			});
+		}
+		else {
+			// handle login here
+			setError({
+				...error,
+				openAlert: false,
+				errorMessage: "",
+			});
+			normalLogin(formValue);
+		}
 	}
 
 	return (
 		<div className="login">
 			<h2 className="login__title">Login</h2>
+			<MyAlert 
+				openAlert={error.openAlert}
+				setCloseAlert={onSetCloseAlert} 
+				errorMessage={error.errorMessage} 
+			/>
 			<form className="login__form" onSubmit={handleLogin}>
 				<FormControl className={marginClassName}>
 					<InputLabel htmlFor="email">Email</InputLabel>

@@ -8,6 +8,7 @@ import Auth from './components/views/Auth/Auth';
 import Homepage from './components/views/Homepage';
 import Landing from './components/layout/Landing';
 import AuthContextProvider from './contexts/authContext';
+import ProtectedRoute from './routing/ProtectedRoute';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
             render={props => <Auth {...props} authRoute="register" />} 
           />
 
-          <Route exact path="/" component={Homepage} />
+          <ProtectedRoute exact path="/dashboard" component={Homepage} />
         </Switch>
       </Router>
     </AuthContextProvider>
