@@ -11,6 +11,7 @@ import AuthContextProvider from './contexts/authContext';
 import Home from './components/home/index';
 import EditRequest from "./components/request/EditRequest";
 import ProtectedRoute from './routing/ProtectedRoute';
+import CreateRequest from './components/request/CreateRequest/CreateRequest';
 
 function App() {
   return (
@@ -25,21 +26,25 @@ function App() {
           />
           <Route 
             exact 
-            path="/home"
-            render={props => <Home {...props} />} 
-          />
-          <Route 
-            exact 
-            path="/edit"
-            render={props => <EditRequest {...props} />} 
-          />
-          <Route 
-            exact 
             path="/register"
             render={props => <Auth {...props} authRoute="register" />} 
           />
 
-          <ProtectedRoute exact path="/dashboard" component={Homepage} />
+          <ProtectedRoute 
+            exact 
+            path="/home"
+            component={Home}
+          />
+          <ProtectedRoute 
+            exact 
+            path="/edit"
+            component={EditRequest}
+          />
+          <ProtectedRoute 
+            exact 
+            path="/create"
+            component={CreateRequest}
+          />
         </Switch>
       </Router>
     </AuthContextProvider>

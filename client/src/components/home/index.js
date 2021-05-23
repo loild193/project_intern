@@ -5,8 +5,8 @@ import Main from './main';
 import {useStyles} from '../../customStyles/SidebarStyles';
 import {  useTheme } from '@material-ui/core/styles';
 export default function Home(props){
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
   const [option,setOption] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -16,18 +16,18 @@ export default function Home(props){
     setOpen(false);
   };
   const handleChooseOption = ()=>{
-      setOption(!option);
+    setOption(!option);
   }
-   return(
-       <div className={classes.root}>
-            <AppBar 
-                handleDrawerOpen={handleDrawerOpen} 
-                handleChooseOption={handleChooseOption}
-                open={open}
-                option={option}
-            />
-            <SideBar handleDrawerClose={handleDrawerClose} open={open}/>
-            <Main open={open}/>
-       </div>
-   );
+  return(
+    <div className={classes.root}>
+      <AppBar 
+        handleDrawerOpen={handleDrawerOpen} 
+        handleChooseOption={handleChooseOption}
+        open={open}
+        option={option}
+      />
+      <SideBar handleDrawerClose={handleDrawerClose} open={open}/>
+      <Main open={open}/>
+    </div>
+  );
 }

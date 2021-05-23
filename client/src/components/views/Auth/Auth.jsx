@@ -20,7 +20,7 @@ function Auth({ authRoute }) {
 			<Loading />
 		)
 	else if (isAuthenticated)
-		return <Redirect to="/dashboard" />
+		return <Redirect to="/home" />
 	else 
 		body = (
 			<>

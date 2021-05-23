@@ -39,14 +39,14 @@ export default function PersistentDrawerLeft(props) {
        
         <List className={classes.DrawerList}>
             {
-                list.map((item,index)=>(
-                <ListItem button>
-                <ListItemIcon className={classes.styleIcon}>
-                    {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.name}/>
+              list.map((item, index)=>(
+                <ListItem button key={index}>
+                  <ListItemIcon className={classes.styleIcon}>
+                      {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.name}/>
                 </ListItem>
-                ))
+              ))
             }
         </List>     
       </Drawer>
