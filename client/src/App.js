@@ -8,6 +8,8 @@ import Auth from './components/views/Auth/Auth';
 import Homepage from './components/views/Homepage';
 import Landing from './components/layout/Landing';
 import AuthContextProvider from './contexts/authContext';
+import Home from './components/home/index';
+import EditRequest from "./components/request/EditRequest";
 import ProtectedRoute from './routing/ProtectedRoute';
 
 function App() {
@@ -21,7 +23,16 @@ function App() {
             path="/login"
             render={props => <Auth {...props} authRoute="login" />} 
           />
-
+          <Route 
+            exact 
+            path="/home"
+            render={props => <Home {...props} />} 
+          />
+          <Route 
+            exact 
+            path="/edit"
+            render={props => <EditRequest {...props} />} 
+          />
           <Route 
             exact 
             path="/register"
