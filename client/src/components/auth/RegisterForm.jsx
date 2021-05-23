@@ -1,12 +1,12 @@
 import { Button, Collapse } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Alert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../contexts/authContext';
 import { marginStyle } from '../../customStyles/customStyles';
+import Loading from '../common/Loading';
+import MyAlert from '../common/MyAlert';
 
 function RegisterForm(props) {
 	const [openAlert, setOpenAlert] = useState(false);
@@ -31,21 +31,22 @@ function RegisterForm(props) {
 		}
 	}, [authLoading, error]);
 
+
 	useEffect(() => {
 		isAuthenticated && history.push('/');
 	}, [isAuthenticated]);
+
+	const onSetCloseAlert = () => {
+		setOpenAlert(false);
+	}
 
 	const handleRegister = () => {
 		registerWithRedirect();
 	}
 
-	const handleCloseAlert = () => {
-		setOpenAlert(false);
-	}
-
 	if (authLoading) {
 		body = (
-			<CircularProgress />
+			<Loading size="3rem" />
 		)
 	}
 	else {
@@ -76,14 +77,11 @@ function RegisterForm(props) {
 
 	return (
 		<div className="register">
-			<Collapse in={openAlert}>
-				<Alert 
-					severity="error"
-					onClose={handleCloseAlert}
-				>
-					{error?.message}
-				</Alert>
-			</Collapse>
+			<MyAlert 
+				openAlert={openAlert}
+				errorMessage={error?.message}
+				setCloseAlert={onSetCloseAlert}
+			/>
 			{ body }
 		</div>
 	)

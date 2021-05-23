@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import firebase from "../lib/firebase";
 import { auth } from "../lib/firebase";
 import { authReducer } from "../reducers/authReducer";
@@ -16,6 +16,7 @@ const AuthContextProvider = ({ children }) => {
 		error: null,
 	});
 
+	// redirect to google login
 	const registerWithRedirect = () => {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		provider.setCustomParameters({
@@ -24,6 +25,7 @@ const AuthContextProvider = ({ children }) => {
 		auth.signInWithRedirect(provider);
 	}
 
+	// check user when render page and login with G-Suite
 	const getAuthState = () => {
 		auth
 			.getRedirectResult()
@@ -55,13 +57,8 @@ const AuthContextProvider = ({ children }) => {
 					const unsubscribe = auth.onAuthStateChanged(user => {
 						unsubscribe();
 						if (user) {
-							// console.log(user)
-							// dispatch({
-							// 	type: "SET_AUTH_GSUITE",
-							// 	payload: {
-							// 		user,
-							// 	},
-							// });
+							// user already login
+							// do nothing
 						} else {
 							dispatch({
 								type: "SET_AUTH_GSUITE",
@@ -83,10 +80,30 @@ const AuthContextProvider = ({ children }) => {
 			)
 	}
 
+	// Check google
+	useEffect(() => getAuthState(), [])
+
+	// need API to check user when reload page
+
+	// normal login
+	const normalLogin = ({ email }) => {
+		// Test
+		if (email === "dekaito193@gmail.com") {
+			dispatch({
+				type: "SET_AUTH_NORMAL_LOGIN",
+				payload: {
+					isAuthenticated: true,
+					user: email,
+				},
+			})
+		}
+	}
+
 	const authContextData = {
 		authState,
 		registerWithRedirect,
 		getAuthState,
+		normalLogin,
 	};
 
 	return (
