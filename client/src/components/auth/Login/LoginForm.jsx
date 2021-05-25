@@ -47,23 +47,27 @@ function LoginForm(props) {
 		});
 	}
 
-	const handleLogin = event => {
+	const handleLogin = async event => {
 		event.preventDefault();
-		if (email.includes("@gmail.com") === false) {
-			setError({
-				...error,
-				openAlert: true,
-				errorMessage: "Wrong format email",
-			});
-		}
-		else {
-			// handle login here
-			setError({
-				...error,
-				openAlert: false,
-				errorMessage: "",
-			});
-			normalLogin(formValue);
+
+		// handle login here
+		setError({
+			...error,
+			openAlert: false,
+			errorMessage: "",
+		});
+		try {
+			const loginData =	await normalLogin(formValue);
+			console.log(loginData)
+			if (!loginData.success) {
+				setError({
+					...error,
+					openAlert: true,
+					errorMessage: loginData.message,
+				});
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	}
 

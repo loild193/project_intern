@@ -6,8 +6,9 @@ import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select } from '
 import { marginStyle } from '../../../customStyles/customStyles';
 import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
 import clsx from 'clsx';
+import { useStyles } from '../../../customStyles/SidebarStyles';
 
-function CreateRequest(props) {
+function CreateRequest({ open }) {
 	const [request, setRequest] = useState({
 		title: "",
 		decription: "",
@@ -17,6 +18,7 @@ function CreateRequest(props) {
 		priority: "",
 	});
 	const { title, decription, status, assignee, category, priority } = request;
+	const classes = useStyles();
 	const marginStyles = marginStyle();
 	const createRequestStyles = createRequestStyle();
 	const marginClassName = clsx(marginStyles.marginTop20px);
@@ -40,13 +42,9 @@ function CreateRequest(props) {
 	}
 
 	return (
-		<div className="create">
-			<div className="create__left">
-				<p>Page 1</p>
-				<p>Page 2</p>
-				<p>Page 3</p>
-			</div>
-
+		<div className={clsx(classes.content, {
+			[classes.contentShift]: open,
+		})}>
 			<form className="create__right" onSubmit={handleCreateRequest}>
 				<div className="create__right__header">
 					<h4>Create request</h4>
