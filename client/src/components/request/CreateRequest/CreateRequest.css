@@ -1,18 +1,8 @@
-.create {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 50px 20px;
-}
-
-.create__left {
-  padding: 20px;
-  border: 1px solid #000;
-}
-
 .create__right {
   flex-direction: column;
   flex-grow: 1;
   margin-left: 50px;
+  margin-top: 60px;
   border: 1px solid #000;
   padding: 20px;
 }

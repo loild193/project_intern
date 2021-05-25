@@ -4,16 +4,14 @@ export const authReducer = (state, action) => {
 		payload: { isAuthenticated, user, error = null } 
 	} = action;
 
-	console.log(user, isAuthenticated)
-
 	switch(type) {
 		case "SET_AUTH_GSUITE": 
 			return {
 				...state,
 				authChecked: true,
 				authLoading: false,
-				// isAuthenticated: user !== null,
-				isAuthenticated: true,
+				isAuthenticated: user !== null,
+				// isAuthenticated: true,
 				error,
 				user,
 			};
@@ -27,7 +25,7 @@ export const authReducer = (state, action) => {
 			}
 		}
 
-		case "SET_AUTH_NORMAL_LOGIN": {
+		case "SET_AUTH_NORMAL": {
 			return {
 				...state,
 				authChecked: true,
