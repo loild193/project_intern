@@ -11,7 +11,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import SettingsIcon from '@material-ui/icons/Settings';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { marginStyle } from '../../customStyles/customStyles';
 import { useStyles } from '../../customStyles/SidebarStyles';
@@ -19,6 +19,8 @@ import MyListItem from '../common/MyListItem';
 
 
 export default function PersistentDrawerLeft(props) {
+
+  
   const [listIcons, setListIcons] = useState([
     {
       name:'Home',

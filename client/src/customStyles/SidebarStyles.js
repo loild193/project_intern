@@ -78,7 +78,8 @@ export const useStyles = makeStyles((theme) => ({
     right:0,
     backgroundColor:'#4caf93',
     color:'white',
-    width:'10%'
+    width:'20%',
+    textAlign:'center',
   },
   ButtonStyles:{
     border:'1px solid #efefef',

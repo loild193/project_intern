@@ -12,7 +12,7 @@ import Home from './components/home/index';
 import EditRequest from "./components/request/EditRequest";
 import ProtectedRoute from './routing/ProtectedRoute';
 import CreateRequest from './components/request/CreateRequest/CreateRequest';
-
+import OptionsContextProvider from './contexts/OptionsContext';
 function App() {
   return (
     <AuthContextProvider>
@@ -30,11 +30,13 @@ function App() {
             render={props => <Auth {...props} authRoute="register" />} 
           />
 
+          <OptionsContextProvider>
           <ProtectedRoute 
-            exact 
-            path="/home"
-            component={Home}
-          />
+              exact 
+              path="/home"
+              component={Home}
+            />
+          </OptionsContextProvider>
           <ProtectedRoute 
             exact 
             path="/edit"

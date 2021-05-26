@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext, useState} from 'react';
 import clsx from 'clsx';
 import {  useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,16 +17,20 @@ import TuneIcon from '@material-ui/icons/Tune';
 import Button from '@material-ui/core/Button';
 import {useStyles} from '../../customStyles/SidebarStyles';
 import { marginStyle } from '../../customStyles/customStyles';
-
+import {OptionsContext} from '../../contexts/OptionsContext';
 export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const marginStyles = marginStyle();
   const theme = useTheme();
-
+  const {
+    status,convertStatus,convertStringToStatus,handleClickOptions
+  } = useContext(OptionsContext);
+ 
   const handleLogout = () => {
     props.onLogout && props.onLogout();
   }
-  
+  const ListOptions = ['All','Open','Pending','Process','Approve','Reject'];
+  var resConvertStatus = convertStatus(status);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -56,24 +60,31 @@ export default function PersistentDrawerLeft(props) {
                 <span className={marginStyles.marginTop5px}><RssFeedOutlinedIcon style={{color:'#d8d8d8'}}/></span>        
             </div>
             <div style={{display:'flex', alignItems: "center"}}>
-              <p>Show:All</p>
+              <p>Show:{resConvertStatus}</p>
               <Button onClick={props.handleChooseOption} className={classes.ButtonStyles}>
                 <TuneIcon/>
                 <span>View Options</span>
               </Button>
               {props.option && (
                 <List className={classes.ListOptions}>
-                  <ListItem button>
-                      <ListItemText primary="All"/>
-                  </ListItem>
-                  <Divider/>
-                  <ListItem button>
-                      <ListItemText primary="Updated"/>
-                  </ListItem>
-                  <Divider/>
-                  <ListItem button>
-                      <ListItemText primary="Added"/>
-                  </ListItem>
+                  {
+                    ListOptions.map((item,index)=>{
+
+                      var resConvertString = convertStringToStatus(item);
+                      return (
+                      <React.Fragment>
+                        <ListItem button onClick={props.handleChooseOption}>
+                          <ListItemText 
+                            primary={item} 
+                            onClick = {()=>handleClickOptions(resConvertString)}
+                          />
+                        </ListItem>
+                         <Divider/>
+                      </React.Fragment>
+                    )
+                    })
+                  }
+                  
                 </List>
               )}
               <span className={classes.logoutSpan} onClick={handleLogout}>
