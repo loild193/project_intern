@@ -10,12 +10,14 @@ import Landing from './components/layout/Landing';
 import AuthContextProvider from './contexts/authContext';
 import Home from './components/home/index';
 import EditRequest from "./components/request/EditRequest";
+import DetailRequest from './components/request/DetailRequest/DetailRequest';
 import ProtectedRoute from './routing/ProtectedRoute';
 import CreateRequest from './components/request/CreateRequest/CreateRequest';
 import OptionsContextProvider from './contexts/OptionsContext';
 function App() {
   return (
     <AuthContextProvider>
+    <OptionsContextProvider>
       <Router>
         <Switch>
           <Route exact path="/" component={Landing} />
@@ -30,26 +32,35 @@ function App() {
             render={props => <Auth {...props} authRoute="register" />} 
           />
 
-          <OptionsContextProvider>
+          
           <ProtectedRoute 
               exact 
               path="/home"
               component={Home}
             />
-          </OptionsContextProvider>
+          
           <ProtectedRoute 
             exact 
             path="/edit"
             component={EditRequest}
           />
+          
           <ProtectedRoute 
             exact 
             path="/create"
             component={CreateRequest}
           />
+          <ProtectedRoute 
+            exact 
+            path="/detail"
+            component={DetailRequest}
+          />
+          
         </Switch>
       </Router>
+      </OptionsContextProvider>
     </AuthContextProvider>
+    
   );
 }
 

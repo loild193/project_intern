@@ -12,11 +12,15 @@ import StarIcon from '@material-ui/icons/Star';
 import {listRequests} from '../../data/SideBar';
 import {useStyles} from '../../customStyles/SidebarStyles';
 import {OptionsContext} from '../../contexts/OptionsContext';
+import { useHistory } from 'react-router';
 export default function PersistentDrawerLeft(props) {
   const {convertStatus,status,handleFilter} = useContext(OptionsContext);
   const classes = useStyles();
   const data = handleFilter(status);
-  console.log(data);
+  const history = useHistory();
+  const handleClick = ()=>{
+    history.push('/detail');
+  }
   return (
     <main
       className={clsx(classes.content, {
@@ -32,7 +36,7 @@ export default function PersistentDrawerLeft(props) {
              return (
               <React.Fragment>
               <ListItem alignItems="flex-start">
-              <ListItemAvatar>
+              <ListItemAvatar onClick={()=>handleClick()}>
                   <Avatar alt="" src=""/>
               </ListItemAvatar>
               <ListItemText 
