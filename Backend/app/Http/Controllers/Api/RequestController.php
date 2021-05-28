@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator;
 class RequestController extends Controller
 {
     public function index()
@@ -27,20 +27,7 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->get('descrption') == NULL)
-            return response()->json('Error');
-        $request = new Requests([
-            'title' => $request->title,
-            'description' => $request->description,
-            'category_id' => $request->category_id,
-            'user_id' => $request->user_id,
-            'assignedPerson_id' => $request->assignedPerson_id,
-            'due_date' => $request->due_date,
-            'priority' => $request->priority,
-
-        ]);
-        $request->save();
-        return response()->json('Add Request Successfully.');
+        //
     }
 
     public function index_1($id)
@@ -51,13 +38,14 @@ class RequestController extends Controller
 
     public function update(Request $request1, $id)
     {
-        $request = Request::find($id);
-        $request->title = $request1->title;
-        $request->description = $request1->description;
-        $request->status = $request1->status;
-        $request->priority = $request1->priority;
+        $request = Requests::find($id);
+        $request->title = $request1->get('title');
+        $request->description = $request1->get('description');
+        $request->status = $request1->get('status');
+        $request->category_id = $request1->get('category_id');
+        $request->priority = $request1->get('priority');
+        
         $request->save();
- 
         return response()->json('Product Update Successfully');
     }
 
