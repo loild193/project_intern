@@ -64,13 +64,14 @@ class RequestController extends Controller
     public function update(Request $request1, $id)
     {
         $request = Requests::find($id);
-        $request->title = $request1->title;
-        $request->description = $request1->description;
-        $request->status = $request1->status;
-        $request->priority = $request1->priority;
+        $request->title = $request1->get('title');
+        $request->description = $request1->get('description');
+        $request->status = $request1->get('status');
+        $request->category_id = $request1->get('category_id');
+        $request->priority = $request1->get('priority');
+        
         $request->save();
- 
-        return response()->json(["Request Update Successfully", $request]);
+        return response()->json('Product Update Successfully');
     }
 
     public function destroy($id)
