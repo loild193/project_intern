@@ -4,24 +4,21 @@ import {  useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 import RssFeedOutlinedIcon from '@material-ui/icons/RssFeedOutlined';
 import TuneIcon from '@material-ui/icons/Tune';
-import clsx from 'clsx';
-import React from 'react';
 import { marginStyle } from '../../customStyles/customStyles';
 import { useStyles } from '../../customStyles/SidebarStyles';
 import {OptionsContext} from '../../contexts/OptionsContext';
+
 export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const marginStyles = marginStyle();

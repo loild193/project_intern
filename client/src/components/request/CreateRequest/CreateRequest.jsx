@@ -1,23 +1,41 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-
-import './CreateRequest.css'
-import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select } from '@material-ui/core'
-import { marginStyle } from '../../../customStyles/customStyles';
-import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
+import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import clsx from 'clsx';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../../contexts/authContext';
+import { OptionsContext } from '../../../contexts/OptionsContext';
+import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
+import { marginStyle } from '../../../customStyles/customStyles';
 import { useStyles } from '../../../customStyles/SidebarStyles';
+import Loading from '../../common/Loading';
+import MyAlert from '../../common/MyAlert';
+import './CreateRequest.css';
+
 
 function CreateRequest({ open }) {
+	const [success, setSuccess] = useState({
+		openAlert: false,
+		successMessage: "",
+	});
 	const [request, setRequest] = useState({
 		title: "",
-		decription: "",
-		status: "Open",
+		description: "",
+		status: 0,
 		assignee: "",
-		category: "",
-		priority: "",
+		due_date: "",
+		category_id: 0,
+		priority: 0,
 	});
-	const { title, decription, status, assignee, category, priority } = request;
+	const { 
+		title, 
+		description, 
+		status, 
+		assignee, 
+		due_date,
+		category_id, 
+		priority, 
+	} = request;
+	const {authState: { user }} = useContext(AuthContext);
+	const { requestState: { requestLoading }, createRequest } = useContext(OptionsContext);
 	const classes = useStyles();
 	const marginStyles = marginStyle();
 	const createRequestStyles = createRequestStyle();
@@ -36,9 +54,31 @@ function CreateRequest({ open }) {
 		});
 	}
 
-	const handleCreateRequest = e => {
+	const onSetCloseAlert = () => {
+		setSuccess({
+			...success,
+			openAlert: false,
+		});
+	}
+
+	const handleCreateRequest = async e => {
 		e.preventDefault();
-		console.log(request)
+		const newRequest = {
+			...request,
+			user_id: user.id,
+		};
+		await createRequest(newRequest);
+		setSuccess({
+			...success,
+			openAlert: true,
+			successMessage: "Create new request successfully!",
+		});
+		setTimeout(() => {
+			setSuccess({
+				...success,
+				openAlert: false,
+			});
+		}, 2000);
 	}
 
 	return (
@@ -46,10 +86,16 @@ function CreateRequest({ open }) {
 			[classes.contentShift]: open,
 		})}>
 			<form className="create__right" onSubmit={handleCreateRequest}>
+				<MyAlert 
+					error={false} 
+					openAlert={success.openAlert}
+					setCloseAlert={onSetCloseAlert}
+					errorMessage={success.successMessage}
+				/>
 				<div className="create__right__header">
 					<h4>Create request</h4>
 					<Button variant="contained" color="secondary" type="submit">
-						Create
+						Create { requestLoading && <Loading size="1rem" /> }
 					</Button>
 				</div>
 				<div className="create__right__form">
@@ -68,21 +114,21 @@ function CreateRequest({ open }) {
 					<Grid container>
 						<Grid item xs={12}>
 							<FormControl className={decriptionClassName}>
-								<InputLabel htmlFor="decription">Decription</InputLabel>
+								<InputLabel htmlFor="description">Description</InputLabel>
 								<Input
-									id="decription"
-									name="decription"
+									id="description"
+									name="description"
 									required
 									fullWidth
 									multiline
 									rows={3}
-									value={decription}
+									value={description}
 									onChange={handleChange}
 								/>
 							</FormControl>
 						</Grid>
 						
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<FormControl variant="outlined" className={formControlClassName} disabled>
 								<InputLabel htmlFor="status">Status</InputLabel>
 								<Select
@@ -90,16 +136,16 @@ function CreateRequest({ open }) {
 									labelId="status"
 									value={status}
 								>
-									<MenuItem value="Open">Open</MenuItem>
-									<MenuItem value="Pending">Pending</MenuItem>
-									<MenuItem value="Process">Process</MenuItem>
-									<MenuItem value="Apporve">Apporve</MenuItem>
-									<MenuItem value="Reject">Reject</MenuItem>
+									<MenuItem value={0}>Open</MenuItem>
+									<MenuItem value={1}>Pending</MenuItem>
+									<MenuItem value={2}>Process</MenuItem>
+									<MenuItem value={3}>Apporve</MenuItem>
+									<MenuItem value={4}>Reject</MenuItem>
 								</Select>
 							</FormControl>
 						</Grid>
 
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<FormControl variant="outlined" className={formControlClassName}>
 								<InputLabel htmlFor="assignee">Assignee</InputLabel>
 								<Select
@@ -119,18 +165,35 @@ function CreateRequest({ open }) {
 							</FormControl>
 						</Grid>
 
+						<Grid item xs={4}>
+							<FormControl variant="outlined" className={formControlClassName}>
+								<TextField
+									label="Due date"
+									id="date"
+									name="due_date"
+									type="date"
+									value={due_date}
+									variant="outlined"
+									InputLabelProps={{
+										shrink: true,
+									}}
+									onChange={handleChange}
+								/>
+							</FormControl>
+						</Grid>
+
 						<Grid item xs={6}>
 							<FormControl variant="outlined" className={formControlClassName}>
 								<InputLabel htmlFor="category">Category</InputLabel>
 								<Select
 									label="Category"
 									labelId="category"
-									value={category}
+									value={category_id}
 									name="category"
 									onChange={handleChange}
 								>
-									<MenuItem value="Coding">Coding</MenuItem>
-									<MenuItem value="Working">Working</MenuItem>
+									<MenuItem value={0}>Coding</MenuItem>
+									<MenuItem value={1}>Working</MenuItem>
 								</Select>
 							</FormControl>
 						</Grid>
@@ -145,9 +208,9 @@ function CreateRequest({ open }) {
 									value={priority}
 									onChange={handleChange}
 								>
-									<MenuItem value="High">High</MenuItem>
-									<MenuItem value="Medium">Medium</MenuItem>
-									<MenuItem value="Low">Low</MenuItem>
+									<MenuItem value={2}>High</MenuItem>
+									<MenuItem value={1}>Medium</MenuItem>
+									<MenuItem value={0}>Low</MenuItem>
 								</Select>
 							</FormControl>
 						</Grid>
