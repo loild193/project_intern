@@ -18,6 +18,8 @@ class UserController extends Controller
             "password"          =>          "required",
             "phone"             =>          "required"
         ]);
+        if ($request->email==NULL)
+            return response()->json('eror');
 
         if($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
