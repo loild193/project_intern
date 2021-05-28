@@ -10,10 +10,11 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
-import { marginStyle } from '../../customStyles/customStyles';
+import { AuthContext } from '../../contexts/authContext';
 import { useStyles } from '../../customStyles/SidebarStyles';
 import MyListItem from '../common/MyListItem';
 
@@ -24,11 +25,19 @@ export default function PersistentDrawerLeft(props) {
       name:'Home',
       icon: <HomeIcon/>,
       isChoose: true,
+      linkTo: '/home',
+    },
+    {
+      name:'Users',
+      icon:<PersonIcon/>,
+      isChoose: false,
+      linkTo: '/users',
     },
     {
       name:'Add Issue',
       icon:<AddIcon/>,
       isChoose: false,
+      linkTo: '/create',
     },
     {
       name:'Issues',
@@ -61,6 +70,7 @@ export default function PersistentDrawerLeft(props) {
       isChoose: false,
     },
   ]);
+  const { authState: { user: { role }}} = useContext(AuthContext);
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
@@ -83,9 +93,45 @@ export default function PersistentDrawerLeft(props) {
     if (name === "Add Issue") {
       history.push('/create');
     }
-    else if (name === "Home") {
+    else if (name === "Home" && role !== 0) {
       history.push('/');
     }
+    else if (name === "Home" && role === 0) {
+      history.push('/admin');
+    }
+    else if (name === "Users") {
+      history.push('admin/users');
+    }
+  }
+
+  let listIconsUI; 
+  if (role === 0) {
+    listIconsUI = listIcons.map((item, index) => 
+      <MyListItem 
+        index={index}
+        styleIcon={classes.styleIcon}
+        icon={item.icon}
+        name={item.name}
+        isChoose={item.isChoose}
+        linkTo={item.linkTo}
+        onItemClick={handleChangeURL}
+      />
+    )
+  }
+  else {
+    listIconsUI = 
+    listIcons
+      .filter(item => item.name !== "Users")
+      .map((item, index) => 
+        <MyListItem 
+          index={index}
+          styleIcon={classes.styleIcon}
+          icon={item.icon}
+          name={item.name}
+          isChoose={item.isChoose}
+          onItemClick={handleChangeURL}
+        />
+      )
   }
   
   return ( 
@@ -108,17 +154,7 @@ export default function PersistentDrawerLeft(props) {
       </div>
       
       <List className={classes.DrawerList}>
-        {
-          listIcons.map((item, index)=> 
-          <MyListItem 
-            index={index}
-            styleIcon={classes.styleIcon}
-            icon={item.icon}
-            name={item.name}
-            isChoose={item.isChoose}
-            onItemClick={handleChangeURL}
-          />)
-        }
+        { listIconsUI }
       </List>     
     </Drawer>
   );

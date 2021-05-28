@@ -1,24 +1,22 @@
-import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom'
-import Auth from './components/views/Auth/Auth';
-import Homepage from './components/views/Homepage';
-import Landing from './components/layout/Landing';
-import AuthContextProvider from './contexts/authContext';
+  Route, Switch
+} from 'react-router-dom';
+import './App.css';
 import Home from './components/home/index';
-import EditRequest from "./components/request/EditRequest";
-import ProtectedRoute from './routing/ProtectedRoute';
 import CreateRequest from './components/request/CreateRequest/CreateRequest';
+import EditRequest from "./components/request/EditRequest";
+import Admin from './components/users/Admin';
+import AllUsers from './components/users/AllUsers/AllUsers';
+import Auth from './components/views/Auth/Auth';
+import AuthContextProvider from './contexts/authContext';
+import ProtectedRoute from './routing/ProtectedRoute';
 
 function App() {
   return (
     <AuthContextProvider>
       <Router>
         <Switch>
-          <Route exact path="/" component={Landing} />
           <Route 
             exact 
             path="/login"
@@ -30,9 +28,14 @@ function App() {
             render={props => <Auth {...props} authRoute="register" />} 
           />
 
+          <ProtectedRoute
+            path="/admin"
+            component={Admin}
+          />
+
           <ProtectedRoute 
             exact 
-            path="/home"
+            path="/"
             component={Home}
           />
           <ProtectedRoute 

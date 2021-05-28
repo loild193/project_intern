@@ -1,22 +1,22 @@
-import React from 'react';
-import clsx from 'clsx';
-import {  useTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import RssFeedOutlinedIcon from '@material-ui/icons/RssFeedOutlined';
+import { useTheme } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import MenuIcon from '@material-ui/icons/Menu';
+import RssFeedOutlinedIcon from '@material-ui/icons/RssFeedOutlined';
 import TuneIcon from '@material-ui/icons/Tune';
-import Button from '@material-ui/core/Button';
-import {useStyles} from '../../customStyles/SidebarStyles';
+import clsx from 'clsx';
+import React from 'react';
 import { marginStyle } from '../../customStyles/customStyles';
+import { useStyles } from '../../customStyles/SidebarStyles';
 
 export default function PersistentDrawerLeft(props) {
   const classes = useStyles();

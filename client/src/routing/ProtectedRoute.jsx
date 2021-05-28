@@ -30,7 +30,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleChooseOption = ()=>{
+  const handleChooseOption = () => {
     setOption(!option);
   }
 
