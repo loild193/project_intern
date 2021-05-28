@@ -3,8 +3,29 @@ import TextField from '@material-ui/core/TextField';
 import {useStyles} from "../../customStyles/EditRequest";
 import Divider from '@material-ui/core/Divider';
 import './StyleEditRequest.css';
+import axios from 'axios';
 function EditRequest(props) {
     const classes = useStyles();
+    const handleSubmit = ()=>{
+        axios({
+            method:'post',
+            url:'http://localhost:3000/edit',
+            params:{
+                name:'khang',
+                pass:'000'
+            }
+        }
+       )
+        .then((res) => {
+          alert(res.data.message);
+          
+        })
+        .catch((err) => {
+          
+          console.log(err);
+          alert(err)
+        })
+    }
     return (
         <div className={classes.wrapFrom}>
             <form style={{margin:'10px'}}>
@@ -101,6 +122,7 @@ function EditRequest(props) {
                         <span style={{marginLeft:'2px'}}>hours</span>
                     </div>
                 </div>
+                <button onClick={handleSubmit}>Submit</button>
             </form>
         </div>
     );

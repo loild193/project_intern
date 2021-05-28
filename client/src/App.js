@@ -11,7 +11,8 @@ import AllUsers from './components/users/AllUsers/AllUsers';
 import Auth from './components/views/Auth/Auth';
 import AuthContextProvider from './contexts/authContext';
 import ProtectedRoute from './routing/ProtectedRoute';
-
+import CreateRequest from './components/request/CreateRequest/CreateRequest';
+import OptionsContextProvider from './contexts/OptionsContext';
 function App() {
   return (
     <AuthContextProvider>
@@ -27,7 +28,6 @@ function App() {
             path="/register"
             render={props => <Auth {...props} authRoute="register" />} 
           />
-
           <ProtectedRoute
             path="/admin"
             component={Admin}
@@ -38,6 +38,15 @@ function App() {
             path="/"
             component={Home}
           />
+
+          <OptionsContextProvider>
+            <ProtectedRoute 
+              exact 
+              path="/home"
+              component={Home}
+            />
+          </OptionsContextProvider>
+
           <ProtectedRoute 
             exact 
             path="/edit"
