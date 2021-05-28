@@ -26,6 +26,7 @@ Route::post("user-login", "App\Http\Controllers\Api\UserController@userLogin");
 Route::get("user/{email}", "App\Http\Controllers\Api\UserController@userDetail");
 
 Route::apiResource('request', 'App\Http\Controllers\Api\RequestController');
+
 Route::get('request/index/{id}','App\Http\Controllers\Api\RequestController@index_1');
 Route::put('request/update/{id}','App\Http\Controllers\Api\RequestController@update');
-Route::delete('request/de/{id}','App\Http\Controllers\Api\RequestController@destroy');
+Route::get('request/index/{id}','App\Http\Controllers\Api\RequestController@index_1');
