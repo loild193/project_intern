@@ -1,7 +1,7 @@
 import { createContext,useReducer,useState } from "react";
 import requestAPI from "../api/requestAPI";
 import {listRequests} from '../data/SideBar';
-import { SET_REQUEST,REQUEST_LOADED_SUCCESS } from "../lib/constant";
+import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS } from "../lib/constant";
 import { requestReducer } from "../reducers/requestReducer";
 export const OptionsContext = createContext();
 
@@ -10,6 +10,7 @@ const OptionsContextProvider = ({children})=>{
     requestLoading: false,
     request: null,
     requests:[],
+    detailRequest:[],
   });
   //data 
   const ListOptions = ['All','Open','Pending','Process','Approve','Reject'];
@@ -96,6 +97,26 @@ const OptionsContextProvider = ({children})=>{
       console.log(error);
     }
   }
+  // get detail request base on id request
+  const getDetailRequest = async (id)=>{
+    try{
+      const response = await requestAPI.detailRequest(id);
+      console.log(response);
+      if(response){
+        dispatch({
+          type: DETAIL_REQUEST_SUCCESS,
+          payload: {
+            requestLoading: false,
+            detailRequest: response,
+          }
+        })
+      }
+      
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
 
   //context data 
   const optionsContextData = {
@@ -107,6 +128,7 @@ const OptionsContextProvider = ({children})=>{
     requestState,
     createRequest,
     getRequests,
+    getDetailRequest,
   }
 
   return (

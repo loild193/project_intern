@@ -21,12 +21,11 @@ export default function PersistentDrawerLeft(props) {
   
   const history = useHistory();
   
-  const handleClick = ()=>{
-    history.push('/detail');
+  const handleClick = (id)=>{
+    history.push(`/detail/${id}`);
   }
   useEffect(()=>getRequests(),[]);
   const data = handleFilter(status,requests);
-  console.log(data);
   return (
     <main
       className={clsx(classes.content, {
@@ -42,7 +41,7 @@ export default function PersistentDrawerLeft(props) {
              return (
               <React.Fragment>
               <ListItem alignItems="flex-start">
-              <ListItemAvatar onClick={()=>handleClick()}>
+              <ListItemAvatar >
                   <Avatar alt="" src=""/>
               </ListItemAvatar>
               <ListItemText 
@@ -59,7 +58,7 @@ export default function PersistentDrawerLeft(props) {
                 <React.Fragment>
                   <div className={classes.secondaryTextRequest}>
                     <div>
-                      <h4>LND-{request.user_id} [{request.user_id}] {request.description}</h4>
+                      <h4 onClick={()=>handleClick(request.id)}>LND-{request.user_id} [{request.user_id}] {request.description}</h4>
                       <span>[Status:{resConvert}]</span>
                     </div>
                     <div className={classes.iconRequest}>
