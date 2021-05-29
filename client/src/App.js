@@ -1,26 +1,24 @@
-import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom'
-import Auth from './components/views/Auth/Auth';
-import Homepage from './components/views/Homepage';
-import Landing from './components/layout/Landing';
-import AuthContextProvider from './contexts/authContext';
+  Route, Switch
+} from 'react-router-dom';
+import './App.css';
 import Home from './components/home/index';
-import EditRequest from "./components/request/EditRequest";
 import DetailRequest from './components/request/DetailRequest/DetailRequest';
-import ProtectedRoute from './routing/ProtectedRoute';
 import CreateRequest from './components/request/CreateRequest/CreateRequest';
+import EditRequest from "./components/request/EditRequest";
+import Admin from './components/users/Admin';
+import Auth from './components/views/Auth/Auth';
+import AuthContextProvider from './contexts/authContext';
 import OptionsContextProvider from './contexts/OptionsContext';
+import ProtectedRoute from './routing/ProtectedRoute';
+
 function App() {
   return (
     <AuthContextProvider>
     <OptionsContextProvider>
       <Router>
         <Switch>
-          <Route exact path="/" component={Landing} />
           <Route 
             exact 
             path="/login"
@@ -32,32 +30,33 @@ function App() {
             render={props => <Auth {...props} authRoute="register" />} 
           />
 
-          
-          <ProtectedRoute 
-              exact 
-              path="/home"
-              component={Home}
-            />
-          
-          <ProtectedRoute 
-            exact 
-            path="/edit"
-            component={EditRequest}
+          <ProtectedRoute
+            path="/admin"
+            component={Admin}
           />
-          
+
           <ProtectedRoute 
             exact 
-            path="/create"
-            component={CreateRequest}
+            path="/"
+            component={Home}
           />
           <ProtectedRoute 
             exact 
             path="/detail"
             component={DetailRequest}
           />
-          
-        </Switch>
-      </Router>
+           <ProtectedRoute 
+              exact 
+              path="/edit"
+              component={EditRequest}
+           />
+            <ProtectedRoute 
+              exact 
+              path="/create"
+              component={CreateRequest}
+            />
+          </Switch>
+        </Router>
       </OptionsContextProvider>
     </AuthContextProvider>
     

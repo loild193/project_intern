@@ -1,11 +1,14 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import {useStyles} from "../../customStyles/EditRequest";
+import {editRequest} from "../../customStyles/EditRequest";
+import { useStyles } from '../../customStyles/SidebarStyles'
 import Divider from '@material-ui/core/Divider';
 import './StyleEditRequest.css';
 import axios from 'axios';
+import clsx from 'clsx';
 function EditRequest(props) {
-    const classes = useStyles();
+    const classes = editRequest();
+    const sidebarClasses = useStyles();
     const handleSubmit = ()=>{
         axios({
             method:'post',
@@ -26,9 +29,12 @@ function EditRequest(props) {
           alert(err)
         })
     }
+    
     return (
-        <div className={classes.wrapFrom}>
-            <form style={{margin:'10px'}}>
+        <div className={clsx(sidebarClasses.content, {
+            [sidebarClasses.contentShift]: props.open,
+          })}>
+            <form style={{marginTop:'60px'}}>
                 <div className={classes.styleDisplay}>
                     <div className="mtb10">
                         <label className={classes.styleLabel}>Status</label>

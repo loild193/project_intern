@@ -19,28 +19,14 @@ use App\Http\Controllers\Api\RequesttController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-// Route::get('requests', function() {
-//     // If the Content-Type and Accept headers are set to 'application/json', 
-//     // this will return a JSON structure. This will be cleaned up later.
-//     return Requestt::all();
-// });
- 
-// Route::get('request/{id}', function($id) {
-//     return Requestt::find($id);
-// });
-
-// Route::post('request', function(Request $request) {
-//     return Requestt::create($request->all);
-// });
-
-// Route::put('request/{id}', function(Request $request, $id) {
-//     $requestt = Requestt::findOrFail($id);
-//     $requestt->update($request->all());
-
-//     return $requestt;
-// });
 Route::post("user-signup", "App\Http\Controllers\Api\UserController@userSignUp");
 
 Route::post("user-login", "App\Http\Controllers\Api\UserController@userLogin");
 
 Route::get("user/{email}", "App\Http\Controllers\Api\UserController@userDetail");
+
+Route::apiResource('request', 'App\Http\Controllers\Api\RequestController');
+
+Route::get('request/index/{id}','App\Http\Controllers\Api\RequestController@index_1');
+Route::put('request/update/{id}','App\Http\Controllers\Api\RequestController@update');
+Route::get('request/index/{id}','App\Http\Controllers\Api\RequestController@index_1');

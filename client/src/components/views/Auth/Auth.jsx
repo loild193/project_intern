@@ -11,7 +11,7 @@ import { Redirect } from 'react-router';
 
 function Auth({ authRoute }) {
 	const { 
-		authState: { authLoading, isAuthenticated },
+		authState: { authLoading, isAuthenticated, user },
 	} = useContext(AuthContext);
 	let body;
 
@@ -19,8 +19,11 @@ function Auth({ authRoute }) {
 		body = (
 			<Loading />
 		)
-	else if (isAuthenticated)
-		return <Redirect to="/home" />
+	else if (isAuthenticated) {
+		if (user?.role === 0) 
+			return <Redirect to="/admin" />
+		else return <Redirect to="/" />
+	}
 	else 
 		body = (
 			<>
