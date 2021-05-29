@@ -1,0 +1,26 @@
+.WrapContent {
+    margin-top: 100px;
+}
+.header{
+    display: flex;
+    flex-direction: column;
+}
+.title{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.mr10px{
+    margin-right: 10px;
+}
+.mr20px{
+    margin-right: 20px;
+}
+.NameRequest{
+    display: flex;
+    justify-content: space-between;
+}
+.detail{
+    display: flex;
+    justify-content: space-between;
+}

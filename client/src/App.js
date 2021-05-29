@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import Home from './components/home/index';
+import DetailRequest from './components/request/DetailRequest/DetailRequest';
 import CreateRequest from './components/request/CreateRequest/CreateRequest';
 import EditRequest from "./components/request/EditRequest";
 import Admin from './components/users/Admin';
@@ -15,34 +16,40 @@ import ProtectedRoute from './routing/ProtectedRoute';
 function App() {
   return (
     <AuthContextProvider>
-      <OptionsContextProvider>
-        <Router>
-          <Switch>
-            <Route 
-              exact 
-              path="/login"
-              render={props => <Auth {...props} authRoute="login" />} 
-            />
-            <Route 
-              exact 
-              path="/register"
-              render={props => <Auth {...props} authRoute="register" />} 
-            />
-            <ProtectedRoute
-              path="/admin"
-              component={Admin}
-            />
+    <OptionsContextProvider>
+      <Router>
+        <Switch>
+          <Route 
+            exact 
+            path="/login"
+            render={props => <Auth {...props} authRoute="login" />} 
+          />
+          <Route 
+            exact 
+            path="/register"
+            render={props => <Auth {...props} authRoute="register" />} 
+          />
 
-            <ProtectedRoute 
-              exact 
-              path="/"
-              component={Home}
-            />
-            <ProtectedRoute 
+          <ProtectedRoute
+            path="/admin"
+            component={Admin}
+          />
+
+          <ProtectedRoute 
+            exact 
+            path="/"
+            component={Home}
+          />
+          <ProtectedRoute 
+            exact 
+            path="/detail"
+            component={DetailRequest}
+          />
+           <ProtectedRoute 
               exact 
               path="/edit"
               component={EditRequest}
-            />
+           />
             <ProtectedRoute 
               exact 
               path="/create"
@@ -52,6 +59,7 @@ function App() {
         </Router>
       </OptionsContextProvider>
     </AuthContextProvider>
+    
   );
 }
 
