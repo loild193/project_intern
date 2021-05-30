@@ -1,23 +1,22 @@
-import React,{useContext,useEffect} from 'react';
-import {OptionsContext} from "../../../contexts/OptionsContext";
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
-import './DetailRequest.css';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
-import axios from 'axios';
-import clsx from 'clsx';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import EditIcon from '@material-ui/icons/Edit';
+import clsx from 'clsx';
+import React, { useContext, useEffect } from 'react';
+import { OptionsContext } from "../../../contexts/OptionsContext";
 import { useStyles } from '../../../customStyles/SidebarStyles';
-import { useHistory } from 'react-router';
+import './DetailRequest.css';
 
 function DetailRequest(props) {
     const classes = useStyles();
-    const {convertStatus,status,handleFilter,getDetailRequest,requestState:{
-        detailRequest,requestLoading
-      }} = useContext(OptionsContext);
+    const {
+        convertStatus,
+        getDetailRequest,
+        requestState:{ detailRequest },
+        convertPriority,
+    } = useContext(OptionsContext);
      
     useEffect(()=>getDetailRequest(props.match.params.id),[]);
     var resConvert = convertStatus(detailRequest.status);
@@ -53,7 +52,7 @@ function DetailRequest(props) {
                 <div className="detail">
                     <div>
                         <ListItem>
-                            <ListItemText primary="Description"/>
+                            <ListItemText className="mr20px" primary="Description"/>
                             <ListItemText primary={detailRequest.description}/>
                         </ListItem>
                         <ListItem>
@@ -66,7 +65,7 @@ function DetailRequest(props) {
                     <div>
                         <ListItem>
                             <ListItemText primary="Priority"/>
-                            <ListItemText primary={detailRequest.priority}/>
+                            <ListItemText primary={convertPriority(detailRequest.priority)}/>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Due Date"/>

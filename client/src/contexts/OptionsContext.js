@@ -1,6 +1,5 @@
 import { createContext,useReducer,useState } from "react";
 import requestAPI from "../api/requestAPI";
-import {listRequests} from '../data/SideBar';
 import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS } from "../lib/constant";
 import { requestReducer } from "../reducers/requestReducer";
 export const OptionsContext = createContext();
@@ -12,8 +11,7 @@ const OptionsContextProvider = ({children})=>{
     requests:[],
     detailRequest:[],
   });
-  //data 
-  const ListOptions = ['All','Open','Pending','Process','Approve','Reject'];
+  
   //state 
   const [status,setStatus] = useState(-1);
   // convert number -> status
@@ -39,6 +37,17 @@ const OptionsContextProvider = ({children})=>{
       default: return -1;
     }
   }
+
+  // convert number -> status
+  const convertPriority = (priority)=>{
+    switch (priority){
+      case 0: return 'Low';
+      case 1: return 'Medium';
+      case 2: return 'High';
+      default: return 'All';
+    }
+  }
+
   //function handle click options
   const handleClickOptions = (state)=>{
     setStatus(state);
@@ -129,6 +138,7 @@ const OptionsContextProvider = ({children})=>{
     createRequest,
     getRequests,
     getDetailRequest,
+    convertPriority,
   }
 
   return (
