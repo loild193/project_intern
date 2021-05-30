@@ -34,9 +34,9 @@ export default function PersistentDrawerLeft(props) {
            {
              var resConvert = convertStatus(request.status);
              return (
-              <React.Fragment>
-              <ListItem alignItems="flex-start">
-              <ListItemAvatar onClick={()=>handleClick()}>
+              <React.Fragment key={index}>
+              <ListItem alignItems="flex-start" onClick={()=>handleClick()}>
+              <ListItemAvatar>
                   <Avatar alt="" src=""/>
               </ListItemAvatar>
               <ListItemText 

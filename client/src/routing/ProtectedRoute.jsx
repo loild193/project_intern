@@ -16,7 +16,6 @@ function ProtectedRoute({ component: Component, ...rest }) {
 		authState: { authLoading, isAuthenticated },
 		logout,
 	} = useContext(AuthContext);
-	console.log(isAuthenticated)
 	if (authLoading) {
 		return (
 			<Loading />

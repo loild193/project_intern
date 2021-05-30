@@ -10,9 +10,15 @@ import clsx from 'clsx';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { useStyles } from '../../../customStyles/SidebarStyles';
+import { useHistory } from 'react-router';
 
 function DetailRequest({open}) {
     const classes = useStyles();
+    const history = useHistory();
+
+    const handleEditRequest = () => {
+        history.push("/edit");
+    }
     
     return (
         <div className={clsx(classes.content, {
@@ -23,19 +29,19 @@ function DetailRequest({open}) {
                     <div className="title">
                         <div>
                             <span className="mr10px">Task</span>
-                            <h7 className="mr10px">LND-28</h7>
+                            <h6 className="mr10px">LND-28</h6>
                             <span><AssignmentIcon style={{marginBottom:"-6px"}}/></span>
                         </div>
                         <div>
                             <span className="mr20px">Start Date</span>
                             <span className="mr20px">Due Date</span>
-                            <Button disabled="true" color="secondary" className="button">Todo
+                            <Button disabled={true} color="secondary" className="button">Todo
                             </Button>
                         </div>
                     </div>
                     <div className="NameRequest">
                         <h3>[PM02] Tuyen sinh PM02</h3>
-                        <Button >
+                        <Button onClick={handleEditRequest}>
                             <EditIcon />
                             Edit
                         </Button>
