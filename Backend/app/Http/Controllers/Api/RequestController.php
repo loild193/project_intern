@@ -71,7 +71,8 @@ class RequestController extends Controller
         $request->priority = $request1->get('priority');
         
         $request->save();
-        return response()->json('Product Update Successfully');
+        
+        return response()->json([$request,'Product Update Successfully']);
     }
 
     public function destroy($id)

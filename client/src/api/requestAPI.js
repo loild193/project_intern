@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosClient from "./axiosClient";
 
 const requestAPI = {
@@ -5,6 +6,10 @@ const requestAPI = {
     const url = "/request";
 
     return axiosClient.post(url, request);
+  },
+  edit: (params)=>{
+    const url = `request/update/${params.id}`;
+    return axiosClient.put(url,params);
   },
   getAll:()=>{
     const url ="/request";

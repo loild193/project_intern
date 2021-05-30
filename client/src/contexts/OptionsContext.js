@@ -1,7 +1,7 @@
 import { createContext,useReducer,useState } from "react";
 import requestAPI from "../api/requestAPI";
 import {listRequests} from '../data/SideBar';
-import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS } from "../lib/constant";
+import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS,EDIT_REQUEST } from "../lib/constant";
 import { requestReducer } from "../reducers/requestReducer";
 export const OptionsContext = createContext();
 
@@ -78,6 +78,27 @@ const OptionsContextProvider = ({children})=>{
       console.log(error);
     }
   }
+  // edit request
+  const editRequest = async request => {
+    try {
+      dispatch({
+        type: EDIT_REQUEST,
+        payload: {
+          requestLoading: true,
+        }
+      });
+      const response = await requestAPI.edit(request);
+      dispatch({
+        type: EDIT_REQUEST,
+        payload: {
+          requestLoading: false,
+          request: response[1],
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
   // get all requests 
   const getRequests = async ()=>{
     try {
@@ -127,6 +148,7 @@ const OptionsContextProvider = ({children})=>{
     handleFilter,
     requestState,
     createRequest,
+    editRequest,
     getRequests,
     getDetailRequest,
   }

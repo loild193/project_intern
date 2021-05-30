@@ -6,7 +6,7 @@ import './App.css';
 import Home from './components/home/index';
 import DetailRequest from './components/request/DetailRequest/DetailRequest';
 import CreateRequest from './components/request/CreateRequest/CreateRequest';
-import EditRequest from "./components/request/EditRequest";
+import EditRequest from "./components/request/EditRequest/EditRequest";
 import Admin from './components/users/Admin';
 import Auth from './components/views/Auth/Auth';
 import AuthContextProvider from './contexts/authContext';
@@ -46,8 +46,8 @@ function App() {
             component={DetailRequest}
           />
            <ProtectedRoute 
-              exact 
-              path="/edit"
+              exact
+              path="/edit/:id"
               component={EditRequest}
            />
             <ProtectedRoute 
