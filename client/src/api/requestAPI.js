@@ -6,6 +6,14 @@ const requestAPI = {
 
     return axiosClient.post(url, request);
   },
+  getAll:()=>{
+    const url ="/request";
+    return axiosClient.get(url);
+  },
+  detailRequest:(id)=>{
+    const url = `request/index/${id}`;
+    return axiosClient.get(url);
+  }
 };
 
 export default requestAPI;

@@ -42,7 +42,7 @@ function App() {
           />
           <ProtectedRoute 
             exact 
-            path="/detail"
+            path="/detail/:id"
             component={DetailRequest}
           />
            <ProtectedRoute 
