@@ -47,21 +47,6 @@ export default function PersistentDrawerLeft(props) {
       isChoose: false,
     },
     {
-      name:'Board',
-      icon:<BarChartIcon/>,
-      isChoose: false,
-    },
-    {
-      name:'Gantt Chart',
-      icon:<EqualizerIcon/>,
-      isChoose: false,
-    },
-    {
-      name:'Wiki',
-      icon:<EqualizerIcon/>,
-      isChoose: false,
-    },
-    {
       name:'Files',
       icon:<FileCopyIcon/>,
       isChoose: false,
