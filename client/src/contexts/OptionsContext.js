@@ -1,7 +1,7 @@
 import { createContext,useReducer,useState } from "react";
 import requestAPI from "../api/requestAPI";
 import {listRequests} from '../data/SideBar';
-import { SET_REQUEST } from "../lib/constant";
+import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS } from "../lib/constant";
 import { requestReducer } from "../reducers/requestReducer";
 export const OptionsContext = createContext();
 
@@ -9,6 +9,8 @@ const OptionsContextProvider = ({children})=>{
   const [requestState, dispatch] = useReducer(requestReducer, {
     requestLoading: false,
     request: null,
+    requests:[],
+    detailRequest:[],
   });
   //data 
   const ListOptions = ['All','Open','Pending','Process','Approve','Reject'];
@@ -43,8 +45,8 @@ const OptionsContextProvider = ({children})=>{
     console.log(status);
   }
   // filter base on option
-  const handleFilter = (state)=>{
-    var data = [...listRequests];
+  const handleFilter = (state,requests)=>{
+    var data = [...requests];
     if(state ===-1) return data;
     else {
       var res = data.filter(function(ele){
@@ -76,6 +78,45 @@ const OptionsContextProvider = ({children})=>{
       console.log(error);
     }
   }
+  // get all requests 
+  const getRequests = async ()=>{
+    try {
+      const response = await requestAPI.getAll();
+      if(response){
+        dispatch({
+          type: REQUEST_LOADED_SUCCESS,
+          payload: {
+            requestLoading: false,
+            requests: response,
+          }
+        })
+        
+      }
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+  // get detail request base on id request
+  const getDetailRequest = async (id)=>{
+    try{
+      const response = await requestAPI.detailRequest(id);
+      console.log(response);
+      if(response){
+        dispatch({
+          type: DETAIL_REQUEST_SUCCESS,
+          payload: {
+            requestLoading: false,
+            detailRequest: response,
+          }
+        })
+      }
+      
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
 
   //context data 
   const optionsContextData = {
@@ -86,6 +127,8 @@ const OptionsContextProvider = ({children})=>{
     handleFilter,
     requestState,
     createRequest,
+    getRequests,
+    getDetailRequest,
   }
 
   return (
