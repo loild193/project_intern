@@ -117,4 +117,13 @@ export const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     marginLeft: "10px",
   },
+  listItemRequest: {
+    alignItems: "flex-start",
+    cursor: "pointer",
+    transition : "all 0.25s ease-in-out",
+
+    '&:hover': {
+      boxShadow: "4px 0px 7px 4px rgb(0 0 0 / 24%)",
+    },
+  },
 }));

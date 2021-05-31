@@ -1,6 +1,6 @@
 import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../contexts/authContext'
 import { OptionsContext } from '../../../contexts/OptionsContext';
 import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
@@ -29,9 +29,8 @@ function EditRequest(props) {
 		category_id, 
 		priority, 
 	} = request;
-	const {authState: { user }} = useContext(AuthContext);
 	const idRequest = props.match.params.id;
-	const { requestState: { requestLoading }, editRequest } = useContext(OptionsContext);
+	const { requestState: { requestLoading, detailRequest }, editRequest, getDetailRequest } = useContext(OptionsContext);
 	const classes = useStyles();
 	const marginStyles = marginStyle();
 	const createRequestStyles = createRequestStyle();
@@ -43,7 +42,13 @@ function EditRequest(props) {
 		createRequestStyles.minWidth,
 	);
 
+	useEffect(() => {
+		getDetailRequest(props.match.params.id);
+		setRequest(detailRequest);
+	}, []);
+
 	const handleChange = e => {
+		console.log(e.target.value, e.target.name)
 		setRequest({
 			...request,
 			[e.target.name]: e.target.value,
@@ -67,7 +72,7 @@ function EditRequest(props) {
 		setSuccess({
 			...success,
 			openAlert: true,
-			successMessage: "Create new request successfully!",
+			successMessage: "Update request successfully!",
 		});
 		setTimeout(() => {
 			setSuccess({
@@ -130,7 +135,9 @@ function EditRequest(props) {
 								<Select
 									label="Status"
 									labelId="status"
+									name="status"
 									value={status}
+									onChange={handleChange}
 								>
 									<MenuItem value={0}>Open</MenuItem>
 									<MenuItem value={1}>Pending</MenuItem>
@@ -150,7 +157,7 @@ function EditRequest(props) {
 										label="Category"
 										labelId="category"
 										value={category_id}
-										name="category"
+										name="category_id"
 										onChange={handleChange}
 									>
 										<MenuItem value={0}>Coding</MenuItem>

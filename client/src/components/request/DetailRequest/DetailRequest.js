@@ -12,8 +12,8 @@ import { useHistory } from 'react-router';
 function DetailRequest(props) {
     const classes = useStyles();
     const history = useHistory();
-    const {convertStatus,status,handleFilter,getDetailRequest,requestState:{
-        detailRequest,requestLoading
+    const {convertStatus, getDetailRequest, convertPriority, requestState:{
+        detailRequest,
       }} = useContext(OptionsContext);
     const handleOnClick = (id)=>{
         history.push(`/edit/${id}`);
