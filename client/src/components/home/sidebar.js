@@ -92,6 +92,9 @@ export default function PersistentDrawerLeft(props) {
     else if (name === "Issues" && role !== 0) {
       history.push('/edit');
     }
+    else if (name === "Issues" && role == 0) {
+      history.push('/edit');
+    }
   }
 
   let listIconsUI; 
