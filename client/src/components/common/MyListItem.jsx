@@ -16,7 +16,7 @@ function MyListItem({ index, styleIcon, icon, name, isChoose, linkTo, onItemClic
 		<ListItem 
 			button 
 			key={index} 
-			className={isChoose && classes.listIsChoose}
+			className={isChoose ? classes.listIsChoose : ""}
 			onClick={handleOnItemClick}
 		>
 			<ListItemIcon className={isChoose ? classes.listItemIconIsChoose : styleIcon}>

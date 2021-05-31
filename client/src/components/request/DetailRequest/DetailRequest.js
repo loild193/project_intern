@@ -1,17 +1,14 @@
-import React,{useContext,useEffect} from 'react';
-import {OptionsContext} from "../../../contexts/OptionsContext";
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
-import './DetailRequest.css';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
-import axios from 'axios';
-import clsx from 'clsx';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import EditIcon from '@material-ui/icons/Edit';
+import clsx from 'clsx';
+import React, { useContext, useEffect } from 'react';
+import { OptionsContext } from "../../../contexts/OptionsContext";
 import { useStyles } from '../../../customStyles/SidebarStyles';
 import { useHistory } from 'react-router';
+
 function DetailRequest(props) {
     const classes = useStyles();
     const history = useHistory();
@@ -21,6 +18,7 @@ function DetailRequest(props) {
     const handleOnClick = (id)=>{
         history.push(`/edit/${id}`);
     }
+
     useEffect(()=>getDetailRequest(props.match.params.id),[]);
     var resConvert = convertStatus(detailRequest.status);
     return (
@@ -32,13 +30,13 @@ function DetailRequest(props) {
                     <div className="title">
                         <div>
                             <span className="mr10px">Task</span>
-                            <h7 className="mr10px">LND-{detailRequest.user_id}</h7>
+                            <h6 className="mr10px">LND-{detailRequest.user_id}</h6>
                             <span><AssignmentIcon style={{marginBottom:"-6px"}}/></span>
                         </div>
                         <div>
                             <span className="mr20px">Start Date</span>
                             <span className="mr20px">Due Date</span>
-                            <Button disabled="true" color="secondary" className="button">{resConvert}
+                            <Button disabled={true} color="secondary" className="button">{resConvert}
                             </Button>
                         </div>
                     </div>
@@ -55,7 +53,7 @@ function DetailRequest(props) {
                 <div className="detail">
                     <div>
                         <ListItem>
-                            <ListItemText primary="Description"/>
+                            <ListItemText className="mr20px" primary="Description"/>
                             <ListItemText primary={detailRequest.description}/>
                         </ListItem>
                         <ListItem>
@@ -68,7 +66,7 @@ function DetailRequest(props) {
                     <div>
                         <ListItem>
                             <ListItemText primary="Priority"/>
-                            <ListItemText primary={detailRequest.priority}/>
+                            <ListItemText primary={convertPriority(detailRequest.priority)}/>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Due Date"/>

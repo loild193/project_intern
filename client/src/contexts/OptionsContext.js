@@ -12,8 +12,7 @@ const OptionsContextProvider = ({children})=>{
     requests:[],
     detailRequest:[],
   });
-  //data 
-  const ListOptions = ['All','Open','Pending','Process','Approve','Reject'];
+  
   //state 
   const [status,setStatus] = useState(-1);
   // convert number -> status
@@ -39,6 +38,17 @@ const OptionsContextProvider = ({children})=>{
       default: return -1;
     }
   }
+
+  // convert number -> status
+  const convertPriority = (priority)=>{
+    switch (priority){
+      case 0: return 'Low';
+      case 1: return 'Medium';
+      case 2: return 'High';
+      default: return 'All';
+    }
+  }
+
   //function handle click options
   const handleClickOptions = (state)=>{
     setStatus(state);
@@ -151,6 +161,7 @@ const OptionsContextProvider = ({children})=>{
     editRequest,
     getRequests,
     getDetailRequest,
+    convertPriority,
   }
 
   return (
