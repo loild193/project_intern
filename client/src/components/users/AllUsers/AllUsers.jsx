@@ -1,8 +1,11 @@
+import { Button } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import clsx from 'clsx';
 import React from 'react';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useHistory } from 'react-router';
 import { useStyles } from '../../../customStyles/SidebarStyles';
+
+import './AllUsers.css'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 120 },
@@ -42,17 +45,29 @@ function AllUsers({ open }) {
     history.push(`/admin/user/${param.data.id}`);
   }
 
+  const handleGotoCreateUserPage = () => {
+    history.replace('/admin/user/create');
+  }
+
 	return (
 		<div className={clsx(classes.content, {
       [classes.contentShift]: open,
     })}  style={{ marginTop: 55}}>
       <div className={classes.drawerHeader} style={{ height: 590, width: '100%' }}>
-			  <DataGrid 
-          rows={rows} 
-          columns={columns} 
-          pageSize={10}
-          onRowSelected={handleRowSelected}
-        />
+        <div className="all-user__wrapper">
+          <div className="all-user__header">
+            <h4>All users</h4>
+            <Button variant="contained" color="secondary" onClick={handleGotoCreateUserPage}>
+              Create User
+            </Button>
+          </div>
+          <DataGrid 
+            rows={rows} 
+            columns={columns} 
+            pageSize={10}
+            onRowSelected={handleRowSelected}
+          />
+        </div>
       </div>
 		</div>
 	)

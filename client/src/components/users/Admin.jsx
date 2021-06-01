@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import Home from '../home';
 import AllUsers from './AllUsers/AllUsers';
+import CreateUser from './CreateUser/CreateUser';
 import EditUser from './EditUser/EditUser';
 import UserDetail from './UserDetail/UserDetail';
 
@@ -19,6 +20,12 @@ function Admin({ match: { path, url }, ...rest }) {
 				exact
 				path={`${path}/user`} 
 				render={props => <AllUsers {...rest} {...props} />} 
+			/>
+
+			<Route
+				exact
+				path={`${path}/user/create`} 
+				render={props => <CreateUser {...rest} {...props} />} 
 			/>
 
 			<Route
