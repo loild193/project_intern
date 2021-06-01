@@ -37,10 +37,12 @@ class RequestController extends Controller
             return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
         }
 
-        if($request->category_id == NULL)
-            $category_id = 0;
-        if($request->assignedPerson_id == NULL)
-            $assignedPerson_id = 0;
+        $category_id = 0;
+        $assignedPerson_id = 0;
+        if($request->category_id != NULL)
+            $category_id = $request->category_id;
+        if($request->assignedPerson_id != NULL)
+            $assignedPerson_id = $request->assignedPerson_id;
         $requestDataArray          =       array(
             "title"               =>          $request->title,
             "description"              =>          $request->description,

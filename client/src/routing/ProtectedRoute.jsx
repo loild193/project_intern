@@ -54,7 +54,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
 						handleDrawerClose={handleDrawerClose} 
 						open={open}
 					/>
-					<Component {...rest} {...props} open={open} />
+					<Component {...props} open={open} />
 				</div>
 			)
 			:

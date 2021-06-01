@@ -1,25 +1,38 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router';
+import { Route, Switch } from 'react-router';
 import Home from '../home';
 import AllUsers from './AllUsers/AllUsers';
+import EditUser from './EditUser/EditUser';
+import UserDetail from './UserDetail/UserDetail';
 
-function Admin({ ...rest }) {
-	const { url } = useRouteMatch();
+function Admin({ match: { path, url }, ...rest }) {
 
 	return (
 		<Switch>
 			<Route 
 				exact 
-				path={url} 
-				{...rest} 
+				path={path} 
 				render={props => <Home {...rest} {...props} />} 
 			/>
 
-			<Route 
-				path={`${url}/users`} 
-				{...rest} 
+			<Route
+				exact
+				path={`${path}/user`} 
 				render={props => <AllUsers {...rest} {...props} />} 
 			/>
+
+			<Route
+				exact
+				path={`${path}/user/:id`} 
+				render={props => <UserDetail {...rest} {...props} />} 
+			/>
+
+			<Route
+				exact
+				path={`${path}/user/edit/:id`} 
+				render={props => <EditUser {...rest} {...props} />} 
+			/>
+
 		</Switch>
 	)
 }

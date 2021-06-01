@@ -33,28 +33,13 @@ export default function PersistentDrawerLeft(props) {
       name:'Users',
       icon:<PersonIcon/>,
       isChoose: false,
-      linkTo: '/users',
+      linkTo: '/admin/user',
     },
     {
       name:'Add Issue',
       icon:<AddIcon/>,
       isChoose: false,
       linkTo: '/create',
-    },
-    {
-      name:'Issues',
-      icon:<ListAltIcon/>,
-      isChoose: false,
-    },
-    {
-      name:'Files',
-      icon:<FileCopyIcon/>,
-      isChoose: false,
-    },
-    {
-      name:'Project Settings',
-      icon:<SettingsIcon/>,
-      isChoose: false,
     },
   ]);
   const { authState: { user: { role }}} = useContext(AuthContext);
@@ -87,7 +72,7 @@ export default function PersistentDrawerLeft(props) {
       history.push('/admin');
     }
     else if (name === "Users") {
-      history.push('admin/users');
+      history.push('/admin/user');
     }
   }
 

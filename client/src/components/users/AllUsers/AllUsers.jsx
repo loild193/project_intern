@@ -1,6 +1,7 @@
 import { DataGrid } from '@material-ui/data-grid';
 import clsx from 'clsx';
 import React from 'react';
+import { useHistory, useRouteMatch } from 'react-router';
 import { useStyles } from '../../../customStyles/SidebarStyles';
 
 const columns = [
@@ -34,14 +35,24 @@ const rows = [
 ];
 
 function AllUsers({ open }) {
+  const history = useHistory();
   const classes = useStyles();
   
+  const handleRowSelected = (param) => {
+    history.push(`/admin/user/${param.data.id}`);
+  }
+
 	return (
 		<div className={clsx(classes.content, {
       [classes.contentShift]: open,
     })}  style={{ marginTop: 55}}>
       <div className={classes.drawerHeader} style={{ height: 590, width: '100%' }}>
-			  <DataGrid rows={rows} columns={columns} pageSize={10} />
+			  <DataGrid 
+          rows={rows} 
+          columns={columns} 
+          pageSize={10}
+          onRowSelected={handleRowSelected}
+        />
       </div>
 		</div>
 	)

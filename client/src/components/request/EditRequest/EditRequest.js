@@ -48,7 +48,6 @@ function EditRequest(props) {
 	}, []);
 
 	const handleChange = e => {
-		console.log(e.target.value, e.target.name)
 		setRequest({
 			...request,
 			[e.target.name]: e.target.value,

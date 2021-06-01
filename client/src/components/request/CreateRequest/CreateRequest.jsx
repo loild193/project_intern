@@ -67,6 +67,7 @@ function CreateRequest({ open }) {
 			...request,
 			user_id: user.id,
 		};
+		console.log(newRequest)
 		await createRequest(newRequest);
 		setSuccess({
 			...success,
@@ -189,7 +190,7 @@ function CreateRequest({ open }) {
 									label="Category"
 									labelId="category"
 									value={category_id}
-									name="category"
+									name="category_id"
 									onChange={handleChange}
 								>
 									<MenuItem value={0}>Coding</MenuItem>
@@ -198,22 +199,25 @@ function CreateRequest({ open }) {
 							</FormControl>
 						</Grid>
 
-						<Grid item xs={6}>
-							<FormControl variant="outlined" className={formControlClassName}>
-								<InputLabel htmlFor="priority">Priority</InputLabel>
-								<Select
-									label="Priority"
-									labelId="priority"
-									name="priority"
-									value={priority}
-									onChange={handleChange}
-								>
-									<MenuItem value={2}>High</MenuItem>
-									<MenuItem value={1}>Medium</MenuItem>
-									<MenuItem value={0}>Low</MenuItem>
-								</Select>
-							</FormControl>
-						</Grid>
+						{
+							user.role === 0 && 
+							<Grid item xs={6}>
+								<FormControl variant="outlined" className={formControlClassName}>
+									<InputLabel htmlFor="priority">Priority</InputLabel>
+									<Select
+										label="Priority"
+										labelId="priority"
+										name="priority"
+										value={priority}
+										onChange={handleChange}
+									>
+										<MenuItem value={2}>High</MenuItem>
+										<MenuItem value={1}>Medium</MenuItem>
+										<MenuItem value={0}>Low</MenuItem>
+									</Select>
+								</FormControl>
+							</Grid>
+						}
 					</Grid>
 				</div>
 			</form>
