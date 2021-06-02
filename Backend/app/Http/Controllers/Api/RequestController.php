@@ -36,15 +36,16 @@ class RequestController extends Controller
         if($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
         }
-
-        if($request->category == NULL)
-            $category = 0;
-        if($request->assignedPerson_id == NULL)
-            $assignedPerson_id = 0;
+        $category_id = 0;
+        $assignedPerson_id = 0;
+        if($request->category_id != NULL)
+            $category_id = $request->category_id;
+        if($request->assignedPerson_id != NULL)
+            $assignedPerson_id = $request->assignedPerson_id;
         $requestDataArray          =       array(
             "title"               =>          $request->title,
             "description"              =>          $request->description,
-            "category_id"           =>         $category,
+            "category_id"           =>         $category_id,
             "user_id"              =>          $request->user_id,
             "assignedPerson_id" => $assignedPerson_id,
             "due_date" => $request->due_date,
@@ -75,7 +76,8 @@ class RequestController extends Controller
         $request->priority = $request1->get('priority');
         
         $request->save();
-        return response()->json('Product Update Successfully');
+        
+        return response()->json([$request,'Product Update Successfully']);
     }
 
     public function destroy($id)

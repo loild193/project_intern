@@ -1,0 +1,10 @@
+.all-user__wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.all-user__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

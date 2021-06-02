@@ -1,17 +1,16 @@
 import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../../contexts/authContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../../contexts/authContext'
 import { OptionsContext } from '../../../contexts/OptionsContext';
 import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
 import { marginStyle } from '../../../customStyles/customStyles';
 import { useStyles } from '../../../customStyles/SidebarStyles';
 import Loading from '../../common/Loading';
 import MyAlert from '../../common/MyAlert';
-import './CreateRequest.css';
+import './EditRequest.css';
 
-
-function CreateRequest({ open }) {
+function EditRequest(props) {
 	const [success, setSuccess] = useState({
 		openAlert: false,
 		successMessage: "",
@@ -20,8 +19,6 @@ function CreateRequest({ open }) {
 		title: "",
 		description: "",
 		status: 0,
-		assignee: "",
-		due_date: "",
 		category_id: 0,
 		priority: 0,
 	});
@@ -29,13 +26,11 @@ function CreateRequest({ open }) {
 		title, 
 		description, 
 		status, 
-		assignee, 
-		due_date,
 		category_id, 
 		priority, 
 	} = request;
-	const {authState: { user }} = useContext(AuthContext);
-	const { requestState: { requestLoading }, createRequest } = useContext(OptionsContext);
+	const idRequest = props.match.params.id;
+	const { requestState: { requestLoading, detailRequest }, editRequest, getDetailRequest } = useContext(OptionsContext);
 	const classes = useStyles();
 	const marginStyles = marginStyle();
 	const createRequestStyles = createRequestStyle();
@@ -46,6 +41,11 @@ function CreateRequest({ open }) {
 		createRequestStyles.decription,
 		createRequestStyles.minWidth,
 	);
+
+	useEffect(() => {
+		getDetailRequest(props.match.params.id);
+		setRequest(detailRequest);
+	}, []);
 
 	const handleChange = e => {
 		setRequest({
@@ -61,18 +61,17 @@ function CreateRequest({ open }) {
 		});
 	}
 
-	const handleCreateRequest = async e => {
+	const handleEditRequest = async e => {
 		e.preventDefault();
-		const newRequest = {
+		const updateRequest = {
 			...request,
-			user_id: user.id,
+			id: idRequest,
 		};
-		console.log(newRequest)
-		await createRequest(newRequest);
+		await editRequest(updateRequest);
 		setSuccess({
 			...success,
 			openAlert: true,
-			successMessage: "Create new request successfully!",
+			successMessage: "Update request successfully!",
 		});
 		setTimeout(() => {
 			setSuccess({
@@ -84,9 +83,9 @@ function CreateRequest({ open }) {
 
 	return (
 		<div className={clsx(classes.content, {
-			[classes.contentShift]: open,
+			[classes.contentShift]: props.open,
 		})}>
-			<form className="create__right" onSubmit={handleCreateRequest}>
+			<form className="create__right" onSubmit={handleEditRequest} method='PUT'>
 				<MyAlert 
 					error={false} 
 					openAlert={success.openAlert}
@@ -94,9 +93,9 @@ function CreateRequest({ open }) {
 					errorMessage={success.successMessage}
 				/>
 				<div className="create__right__header">
-					<h4>Create request</h4>
+					<h4>Update request</h4>
 					<Button variant="contained" color="secondary" type="submit">
-						Create { requestLoading && <Loading size="1rem" /> }
+						Update { requestLoading && <Loading size="1rem" /> }
 					</Button>
 				</div>
 				<div className="create__right__form">
@@ -128,14 +127,16 @@ function CreateRequest({ open }) {
 								/>
 							</FormControl>
 						</Grid>
-						
-						<Grid item xs={4}>
-							<FormControl variant="outlined" className={formControlClassName} disabled>
+						<Grid item xs={2}></Grid>
+						<Grid item xs={5}>
+							<FormControl variant="outlined" className={formControlClassName} >
 								<InputLabel htmlFor="status">Status</InputLabel>
 								<Select
 									label="Status"
 									labelId="status"
+									name="status"
 									value={status}
+									onChange={handleChange}
 								>
 									<MenuItem value={0}>Open</MenuItem>
 									<MenuItem value={1}>Pending</MenuItem>
@@ -146,78 +147,41 @@ function CreateRequest({ open }) {
 							</FormControl>
 						</Grid>
 
-						<Grid item xs={4}>
-							<FormControl variant="outlined" className={formControlClassName}>
-								<InputLabel htmlFor="assignee">Assignee</InputLabel>
-								<Select
-									label="Assignee"
-									autoWidth
-									labelId="assignee"
-									value={assignee}
-									name="assignee"
-									onChange={handleChange}
-								>
-									<MenuItem value="A">A</MenuItem>
-									<MenuItem value="B">B</MenuItem>
-									<MenuItem value="C">C</MenuItem>
-									<MenuItem value="D">D</MenuItem>
-									<MenuItem value="E">E</MenuItem>
-								</Select>
-							</FormControl>
-						</Grid>
+						
 
-						<Grid item xs={4}>
+						<Grid item xs={5}>
 							<FormControl variant="outlined" className={formControlClassName}>
-								<TextField
-									label="Due date"
-									id="date"
-									name="due_date"
-									type="date"
-									value={due_date}
-									variant="outlined"
-									InputLabelProps={{
-										shrink: true,
-									}}
-									onChange={handleChange}
-								/>
-							</FormControl>
-						</Grid>
-
-						<Grid item xs={6}>
-							<FormControl variant="outlined" className={formControlClassName}>
-								<InputLabel htmlFor="category">Category</InputLabel>
-								<Select
-									label="Category"
-									labelId="category"
-									value={category_id}
-									name="category_id"
-									onChange={handleChange}
-								>
-									<MenuItem value={0}>Coding</MenuItem>
-									<MenuItem value={1}>Working</MenuItem>
-								</Select>
-							</FormControl>
-						</Grid>
-
-						{
-							user.role === 0 && 
-							<Grid item xs={6}>
-								<FormControl variant="outlined" className={formControlClassName}>
-									<InputLabel htmlFor="priority">Priority</InputLabel>
+									<InputLabel htmlFor="category">Category</InputLabel>
 									<Select
-										label="Priority"
-										labelId="priority"
-										name="priority"
-										value={priority}
+										label="Category"
+										labelId="category"
+										value={category_id}
+										name="category_id"
 										onChange={handleChange}
 									>
-										<MenuItem value={2}>High</MenuItem>
-										<MenuItem value={1}>Medium</MenuItem>
-										<MenuItem value={0}>Low</MenuItem>
+										<MenuItem value={0}>Coding</MenuItem>
+										<MenuItem value={1}>Working</MenuItem>
 									</Select>
-								</FormControl>
-							</Grid>
-						}
+							</FormControl>
+						</Grid>
+
+						<Grid item xs={2}></Grid>
+						<Grid item xs={6}>
+							<FormControl variant="outlined" className={formControlClassName}>
+								<InputLabel htmlFor="priority">Priority</InputLabel>
+								<Select
+									label="Priority"
+									labelId="priority"
+									name="priority"
+									value={priority}
+									onChange={handleChange}
+								>
+									<MenuItem value={2}>High</MenuItem>
+									<MenuItem value={1}>Medium</MenuItem>
+									<MenuItem value={0}>Low</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
 					</Grid>
 				</div>
 			</form>
@@ -225,9 +189,9 @@ function CreateRequest({ open }) {
 	)
 }
 
-CreateRequest.propTypes = {
+EditRequest.propTypes = {
 
 }
 
-export default CreateRequest
+export default EditRequest
 

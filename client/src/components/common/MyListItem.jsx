@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useStyles } from '../../customStyles/SidebarStyles';
 
-function MyListItem({ index, styleIcon, icon, name, isChoose, onItemClick }) {
+function MyListItem({ index, styleIcon, icon, name, isChoose, linkTo, onItemClick }) {
 	const classes = useStyles();
 
 	const handleOnItemClick = () => {
@@ -16,7 +16,7 @@ function MyListItem({ index, styleIcon, icon, name, isChoose, onItemClick }) {
 		<ListItem 
 			button 
 			key={index} 
-			className={isChoose && classes.listIsChoose}
+			className={isChoose ? classes.listIsChoose : ""}
 			onClick={handleOnItemClick}
 		>
 			<ListItemIcon className={isChoose ? classes.listItemIconIsChoose : styleIcon}>
@@ -29,18 +29,20 @@ function MyListItem({ index, styleIcon, icon, name, isChoose, onItemClick }) {
 
 MyListItem.propTypes = {
 	index: PropTypes.number,
-	styleIcon: PropTypes.object,
+	styleIcon: PropTypes.string,
 	icon: PropTypes.node,
 	name: PropTypes.string,
 	isChoose: PropTypes.bool,
+	linkTo: PropTypes.string,
 	onItemClick: PropTypes.func,
 }
 MyListItem.defaultProps = {
 	index: null,
-	styleIcon: null,
+	styleIcon: "",
 	icon: null,
 	name: "",
 	isChoose: false,
+	linkTo: "",
 	onItemClick: null,
 }
 
