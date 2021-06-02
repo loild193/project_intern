@@ -108,4 +108,57 @@ class UserController extends Controller
             return $user;
         }
     }
+    public function index()
+    {
+        $user = User::all();
+        return response()->json($user);
+    }
+    public function show($id)
+    {
+        $user = User::find($id);
+        return response()->json($user);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->name = $request->get('name');
+        $user->role = $request->get('role');
+        $user->bophan_id = $request->get('bophan_id');
+        $user->phone = $request->get('phone');
+        $user->save();
+        return response()->json('User Update Successfully');
+    }
+    public function store(Request $request)
+    {
+        $validator              =        Validator::make($request->all(), [
+            "name"              =>     "required",
+            "email"        =>     "required",
+            "role"           =>     "required",
+            "password"           =>     "required",
+            "phone"           =>     "required",
+            "bophan_id"         =>     "required",
+        ]);
+        if($validator->fails()) {
+            return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
+        }
+        $userDataArray          =       array(
+            "name"               =>          $request->name,
+            "email"              =>          $request->email,
+            "role"              =>          $request->role,
+            "bophan_id"              =>          $request->bophan_id,
+            "password"           =>          md5($request->password),
+            "phone"              =>          $request->phone
+        );
+
+        $user_status            =           User::where("email", $request->email)->first();
+
+        if(!is_null($user_status)) {
+           return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! email already registered"]);
+        }
+        $user                   =           User::create($userDataArray);
+        return response()->json(["Add User Successfully.", $user]);
+    }
+
+
 }

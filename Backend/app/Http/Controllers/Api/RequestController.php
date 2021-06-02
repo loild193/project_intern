@@ -36,7 +36,6 @@ class RequestController extends Controller
         if($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
         }
-
         $category_id = 0;
         $assignedPerson_id = 0;
         if($request->category_id != NULL)
@@ -56,8 +55,12 @@ class RequestController extends Controller
         $request1                   =          Requests::create($requestDataArray);
         return response()->json(["Add Request Successfully.", $request1]);
     }
-
     public function index_1($id)
+    {
+        $request = Requests::find($id);
+        return response()->json($request);
+    }
+    public function show($id)
     {
         $request = Requests::find($id);
         return response()->json($request);
