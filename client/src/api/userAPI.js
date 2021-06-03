@@ -15,7 +15,12 @@ const userAPI = {
     const url = `user/${email}`;
 
     return axiosClient.get(url);
-  }
+  },
+  getUsers: () => {
+    const url = 'user';
+
+    return axiosClient.get(url);
+  },
 };
 
 export default userAPI;

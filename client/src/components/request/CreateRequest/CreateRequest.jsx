@@ -1,6 +1,7 @@
 import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import userAPI from '../../../api/userAPI';
 import { AuthContext } from '../../../contexts/authContext';
 import { OptionsContext } from '../../../contexts/OptionsContext';
 import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
@@ -25,6 +26,7 @@ function CreateRequest({ open }) {
 		category_id: 0,
 		priority: 0,
 	});
+	const [assignees, setAssignees] = useState([]);
 	const { 
 		title, 
 		description, 
@@ -46,6 +48,20 @@ function CreateRequest({ open }) {
 		createRequestStyles.decription,
 		createRequestStyles.minWidth,
 	);
+
+	useEffect(() => {
+		const getAsignees = async () => {
+			const response = await userAPI.getUsers();
+			response && 
+			setAssignees(response.filter(assignee => (
+				assignee.bophan_id === user.bophan_id && 
+				assignee.role === 1 &&
+				assignee.id !== user.id
+			)));
+		}
+
+		getAsignees();
+	}, []);
 
 	const handleChange = e => {
 		setRequest({
@@ -157,11 +173,11 @@ function CreateRequest({ open }) {
 									name="assignee"
 									onChange={handleChange}
 								>
-									<MenuItem value="A">A</MenuItem>
-									<MenuItem value="B">B</MenuItem>
-									<MenuItem value="C">C</MenuItem>
-									<MenuItem value="D">D</MenuItem>
-									<MenuItem value="E">E</MenuItem>
+									{
+										assignees.map(({ id, name}) => 
+											<MenuItem value={id}>{ name }</MenuItem>	
+										)
+									}
 								</Select>
 							</FormControl>
 						</Grid>

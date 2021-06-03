@@ -65,10 +65,10 @@ export default function PersistentDrawerLeft(props) {
     if (name === "Add Issue") {
       history.push('/create');
     }
-    else if (name === "Home" && role !== 0) {
+    else if (name === "Home" && role !== 2) {
       history.push('/');
     }
-    else if (name === "Home" && role === 0) {
+    else if (name === "Home" && role === 2) {
       history.push('/admin');
     }
     else if (name === "Users") {

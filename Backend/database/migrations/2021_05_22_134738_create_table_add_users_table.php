@@ -16,7 +16,7 @@ class CreateTableAddUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('role')->default(0);
             $table->string('avatar')->nullable();
-            $table->string('bophan_id')->nullable()->unique();
+            $table->tinyInteger('bophan_id')->nullable();
             $table->string('phone')->default(0);
             $table->softDeletes();
         });

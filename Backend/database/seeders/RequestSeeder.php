@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Request;
+use App\Models\Requests;
 
 class RequestSeeder extends Seeder
 {
@@ -14,6 +14,6 @@ class RequestSeeder extends Seeder
      */
     public function run()
     {
-        Request::factory()->times(50)->create();
+        Requests::factory()->times(50)->create();
     }
 }
