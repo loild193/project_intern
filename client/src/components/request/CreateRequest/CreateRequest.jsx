@@ -83,7 +83,6 @@ function CreateRequest({ open }) {
 			...request,
 			user_id: user.id,
 		};
-		console.log(newRequest)
 		await createRequest(newRequest);
 		setSuccess({
 			...success,
