@@ -1,15 +1,13 @@
 import { Button } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import clsx from 'clsx';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import userAPI from '../../../api/userAPI';
-import { AuthContext } from '../../../contexts/authContext';
+import { UserContext } from '../../../contexts/userContext';
 import { useStyles } from '../../../customStyles/SidebarStyles';
-import { changeBophanToName, changeRoleToName } from '../../../lib/helper';
 import Loading from '../../common/Loading';
+import './AllUsers.css';
 
-import './AllUsers.css'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 120 },
@@ -21,29 +19,11 @@ const columns = [
 ];
 
 function AllUsers({ open }) {
-  const [allUsers, setAllUsers] = useState([]);
-  const { authState: { user }} = useContext(AuthContext);
+  const { userState: { allUsers }, getAllUsers } = useContext(UserContext);
   const history = useHistory();
   const classes = useStyles();
 
   useEffect(() => {
-    const getAllUsers = async () => {
-			const response = await userAPI.getUsers();
-			response && 
-			setAllUsers(
-        response
-          .filter(allUser => allUser.id !== user.id)
-          .map(user => ({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-            part: changeBophanToName(user.bophan_id),
-            role: changeRoleToName(user.role),
-          }))
-      );
-		}
-
 		getAllUsers();
   }, []);
   
@@ -61,7 +41,7 @@ function AllUsers({ open }) {
     })}  style={{ marginTop: 55}}>
       <div className={classes.drawerHeader} style={{ height: 590, width: '100%' }}>
         {
-          allUsers.length === 0 ?
+          allUsers?.length === 0 ?
           <Loading size="3rem" /> :
           <div className="all-user__wrapper">
             <div className="all-user__header">

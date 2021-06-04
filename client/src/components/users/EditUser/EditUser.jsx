@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import './EditUser.css'
-import { useStyles } from '../../../customStyles/SidebarStyles';
 import { Avatar, Button, FormControl, Grid, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
-import { useParams } from 'react-router';
 import clsx from 'clsx';
-import { marginStyle } from '../../../customStyles/customStyles';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { UserContext } from '../../../contexts/userContext';
 import { createRequestStyle } from '../../../customStyles/CreateRequestStyles';
-import userAPI from '../../../api/userAPI';
+import { marginStyle } from '../../../customStyles/customStyles';
+import { useStyles } from '../../../customStyles/SidebarStyles';
 import Loading from '../../common/Loading';
 import MyAlert from '../../common/MyAlert';
+import './EditUser.css';
 
 function EditUser({ open }) {
 	const [success, setSuccess] = useState({
@@ -17,6 +16,7 @@ function EditUser({ open }) {
 		successMessage: "",
 	});
 	const [userDetail, setUserDetail] = useState(null);
+	const { userState: { user }, getUserDetail, updateUser } = useContext(UserContext);
 	const { id } = useParams();
 	const classes = useStyles();
 	const marginStyles = marginStyle();
@@ -26,21 +26,8 @@ function EditUser({ open }) {
 
 	// get user detail with useEffect
 	useEffect(() => {
-		const getUserDetail = async () => {
-			const response = await userAPI.getUserWithId(id);
-			response && 
-			setUserDetail({
-				id: response.id,
-				bophan_id: response.bophan_id,
-				name: response.name,
-				email: response.email,
-				phone: response.phone,
-				role: response.phone,
-				created_at: response.created_at,
-			});
-		}
-
-		getUserDetail();
+		getUserDetail(id);
+		setUserDetail(user);
 	}, []);
 
 	const onSetCloseAlert = () => {
@@ -60,11 +47,11 @@ function EditUser({ open }) {
 	const handleUpdateUser = async (e) => {
 		e.preventDefault();
 
-		const response = await userAPI.updateUser(userDetail);
+		await updateUser(userDetail);
 		setSuccess({
 			...success,
 			openAlert: true,
-			successMessage: response,
+			successMessage: "Update user successfully",
 		});
 		setTimeout(() => {
 			setSuccess({
