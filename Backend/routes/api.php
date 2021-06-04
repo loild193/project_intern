@@ -29,6 +29,7 @@ Route::apiResource('request', 'App\Http\Controllers\Api\RequestController');
 
 Route::apiResource('user', 'App\Http\Controllers\Api\UserController');
 Route::get('user/index/{id}','App\Http\Controllers\Api\UserController@show');
+Route::put('user/update/{id}','App\Http\Controllers\Api\UserController@update');
 Route::delete('request/delete/{id}','App\Http\Controllers\Api\RequestController@destroy');
 Route::get('request/index/{id}','App\Http\Controllers\Api\RequestController@index_1');
 Route::put('request/update/{id}','App\Http\Controllers\Api\RequestController@update');
