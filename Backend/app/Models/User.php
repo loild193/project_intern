@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\BoPhan;
 
 class User extends Authenticatable
 {
@@ -51,4 +52,8 @@ class User extends Authenticatable
         'manager' => 1,
         'admin' => 2,
     ];
+    public function bophans()
+    {
+        return $this->belongsToMany(BoPhan::class, 'bophan_id');
+    }
 }

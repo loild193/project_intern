@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\BoPhan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -111,19 +112,30 @@ class UserController extends Controller
     
     public function index()
     {
-        $user = User::all();
-        return response()->json($user);
+        $users = User::where('role',"=",0)
+        ->orwhere('role',"=",1)
+        ->get();
+        return response()->json($users);
     }
     public function show($id)
     {
         $user = User::find($id);
-        return response()->json($user);
+        $bophan = BoPhan::find($user["bophan_id"]);
+        return response()->json([$user,$bophan]);
+    }
+    
+    public function destroy($id)
+    {
+       $user = User::find($id);
+       $user->delete();
+       return response()->json('User Delete Successfully');
     }
 
     public function update(Request $request, $id)
     {
         $user = User::find($id);
         $user->name = $request->get('name');
+        $user->password = $request->get('password');
         $user->role = $request->get('role');
         $user->bophan_id = $request->get('bophan_id');
         $user->phone = $request->get('phone');
@@ -160,6 +172,5 @@ class UserController extends Controller
         $user                   =           User::create($userDataArray);
         return response()->json(["Add User Successfully.", $user]);
     }
-
-
+  
 }

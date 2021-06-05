@@ -28,9 +28,14 @@ Route::get("user/{email}", "App\Http\Controllers\Api\UserController@userDetail")
 Route::apiResource('request', 'App\Http\Controllers\Api\RequestController');
 
 Route::apiResource('user', 'App\Http\Controllers\Api\UserController');
-Route::get('user/index/{id}','App\Http\Controllers\Api\UserController@show');
-Route::put('user/update/{id}','App\Http\Controllers\Api\UserController@update');
-Route::delete('request/delete/{id}','App\Http\Controllers\Api\RequestController@destroy');
+// Route::get('user/index/{id}','App\Http\Controllers\Api\UserController@show');
+// Route::put('user/update/{id}','App\Http\Controllers\Api\UserController@update');
+// Route::delete('request/delete/{id}','App\Http\Controllers\Api\RequestController@destroy');
 Route::get('request/index/{id}','App\Http\Controllers\Api\RequestController@index_1');
-Route::put('request/update/{id}','App\Http\Controllers\Api\RequestController@update');
+// Route::put('request/update/{id}','App\Http\Controllers\Api\RequestController@update');
+Route::get('user/test','App\Http\Controllers\Api\UserController@show_user');
+
+Route::apiResource('request/comment', 'App\Http\Controllers\Api\CommentController');
+Route::get('request/comment/sum_request/{id}','App\Http\Controllers\Api\RequestController@sum_request');
+
 

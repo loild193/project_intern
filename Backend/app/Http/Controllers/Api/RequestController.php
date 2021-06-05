@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Requests;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 class RequestController extends Controller
 {
     public function index()
@@ -85,6 +87,19 @@ class RequestController extends Controller
         $request = Requests::find($id);
         $request->delete();
         return response()->json('Request Deleted Successfully');
+    }
+    public function sum_request($id)
+    {
+        // $request = DB
+        $bophan = DB::table('users')
+            ->join('bophans', 'users.bophan_id', '=', 'bophans.id')
+            ->select('bophans.name')
+            ->where('users.id', '=', $id)
+            ->get();
+        $user = User::find($id);
+        $requests = Requests::where('user_id', '=', $id)->count();
+        return response()->json([$requests,$user, $bophan]);
+
     }
 
 }
