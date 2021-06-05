@@ -16,7 +16,6 @@ function ProtectedRoute({ component: Component, ...rest }) {
 		authState: { authLoading, isAuthenticated },
 		logout,
 	} = useContext(AuthContext);
-
 	if (authLoading) {
 		return (
 			<Loading />
@@ -30,7 +29,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleChooseOption = ()=>{
+  const handleChooseOption = () => {
     setOption(!option);
   }
 
@@ -39,6 +38,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
 	}
 
 	return (
+		
 		<Route {...rest} render={props => isAuthenticated
 			? 
 			(
@@ -54,7 +54,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
 						handleDrawerClose={handleDrawerClose} 
 						open={open}
 					/>
-					<Component {...rest} {...props} open={open} />
+					<Component {...props} open={open} />
 				</div>
 			)
 			:

@@ -15,7 +15,27 @@ const userAPI = {
     const url = `user/${email}`;
 
     return axiosClient.get(url);
-  }
+  },
+  getUsers: () => {
+    const url = 'user';
+
+    return axiosClient.get(url);
+  },
+  getUserWithId: (id) => {
+    const url = `user/index/${id}`;
+
+    return axiosClient.get(url);
+  },
+  createUser: newUser => {
+    const url = `/user`;
+
+    return axiosClient.post(url, newUser);
+  },
+  updateUser: userDetail => {
+    const url = `/user/update/${userDetail.id}`;
+
+    return axiosClient.put(url, userDetail);
+  },
 };
 
 export default userAPI;

@@ -1,0 +1,21 @@
+.detail__wrapper {
+  height: 100%;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px 30px;
+  border: 1px solid #cacaca;
+}
+
+.detail__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail__avatar {
+  display: flex;
+  align-items: center;
+}
+.detail__avatar > p {
+  margin-left: 10px;
+}

@@ -1,5 +1,5 @@
 import {makeStyles} from '@material-ui/core';
-export const useStyles = makeStyles((theme)=>({
+export const editRequest = makeStyles((theme)=>({
     wrapFrom:{
         position:'absolute',
         width:'80%',

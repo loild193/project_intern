@@ -1,0 +1,19 @@
+.create__right {
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 50px;
+  margin-top: 60px;
+  border: 1px solid #000;
+  padding: 20px;
+}
+
+.create__right__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create__right__form {
+  display: flex;
+  flex-direction: column;
+}

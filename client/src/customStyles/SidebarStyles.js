@@ -78,7 +78,8 @@ export const useStyles = makeStyles((theme) => ({
     right:0,
     backgroundColor:'#4caf93',
     color:'white',
-    width:'10%'
+    width:'20%',
+    textAlign:'center',
   },
   ButtonStyles:{
     border:'1px solid #efefef',
@@ -115,5 +116,14 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     cursor: "pointer",
     marginLeft: "10px",
+  },
+  listItemRequest: {
+    alignItems: "flex-start",
+    cursor: "pointer",
+    transition : "all 0.25s ease-in-out",
+
+    '&:hover': {
+      boxShadow: "4px 0px 7px 4px rgb(0 0 0 / 24%)",
+    },
   },
 }));

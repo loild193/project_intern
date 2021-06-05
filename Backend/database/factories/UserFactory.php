@@ -26,10 +26,12 @@ class UserFactory extends Factory
     {
         $avatar = "storage\image\account.png";
         $role = mt_rand(0, 2);
+        $bophan_id = mt_rand(1, 4);
         return [
             'name' => $this->faker->name,
             'avatar' => $avatar,
             'role' => $role,
+            'bophan_id' => $bophan_id,
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('12345678'), // password
             'remember_token' => Str::random(10),

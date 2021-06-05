@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Request;
+use App\Models\Requests;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Generator as Faker;
 
-class RequestFactory extends Factory
+class RequestsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Request::class;
+    protected $model = Requests::class;
 
     /**
      * Define the model's default state.

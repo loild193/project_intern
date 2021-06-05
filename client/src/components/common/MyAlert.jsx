@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Alert from '@material-ui/lab/Alert';
 import { Collapse } from '@material-ui/core';
 
-function MyAlert({ setCloseAlert, openAlert, errorMessage }) {
+function MyAlert({ error, setCloseAlert, openAlert, errorMessage }) {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
@@ -18,7 +18,7 @@ function MyAlert({ setCloseAlert, openAlert, errorMessage }) {
 	return (
 		<Collapse in={open}>
 			<Alert 
-				severity="error"
+				severity={error ? "error" : "success"}
 				onClose={handleClose}
 			>
 				{errorMessage}
@@ -28,11 +28,13 @@ function MyAlert({ setCloseAlert, openAlert, errorMessage }) {
 }
 
 MyAlert.propTypes = {
+	error: PropTypes.bool,
 	openAlert: PropTypes.bool,
 	errorMessage: PropTypes.string,
 	setCloseAlert: PropTypes.func,
 }
 MyAlert.defaultProps = {
+	error: "true",
 	openAlert: false,
 	errorMessage: "",
 	setCloseAlert: null

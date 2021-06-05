@@ -1,12 +1,11 @@
 import { createContext, useEffect, useReducer } from "react";
 import userAPI from "../api/userAPI";
+import { HOST_DOMAIN, SET_AUTH_GSUITE, SET_AUTH_GSUITE_ERROR, SET_AUTH_NORMAL } from "../lib/constant";
 import firebase from "../lib/firebase";
 import { auth } from "../lib/firebase";
 import { authReducer } from "../reducers/authReducer";
 
 export const AuthContext = createContext();
-// domain to check g-suite mail
-const HOST_DOMAIN = "hblab.vn"; 
 
 const AuthContextProvider = ({ children }) => {
 	const [authState, dispatch] = useReducer(authReducer, {
@@ -34,7 +33,7 @@ const AuthContextProvider = ({ children }) => {
 				if (user) {
 					if (additionalUserInfo.profile.hd === HOST_DOMAIN) {
 						dispatch({
-							type: "SET_AUTH_GSUITE",
+							type: SET_AUTH_GSUITE,
 							payload: {
 								user,
 							},
@@ -43,7 +42,7 @@ const AuthContextProvider = ({ children }) => {
 					else {
 						auth.signOut();
 						dispatch({
-							type: "SET_AUTH_GSUITE_ERROR",
+							type: SET_AUTH_GSUITE_ERROR,
 							payload: {
 								error: {
 									code: 'auth/not-hblab-email',
@@ -62,7 +61,7 @@ const AuthContextProvider = ({ children }) => {
 							// do nothing
 						} else {
 							dispatch({
-								type: "SET_AUTH_GSUITE",
+								type: SET_AUTH_GSUITE,
 								payload: {
 									user: null,
 								},
@@ -73,7 +72,7 @@ const AuthContextProvider = ({ children }) => {
 			})
 			.catch(error =>
 				dispatch({
-					type: "SET_AUTH_GSUITE",
+					type: SET_AUTH_GSUITE,
 					payload: {
 						error,
 					},
@@ -95,7 +94,7 @@ const AuthContextProvider = ({ children }) => {
 		
 		if (response.email) {
 			dispatch({
-				type: 'SET_AUTH_NORMAL',
+				type: SET_AUTH_NORMAL,
 				payload: {
 					isAuthenticated: true,
 					user: response,
@@ -105,7 +104,7 @@ const AuthContextProvider = ({ children }) => {
 		else {
 			localStorage.removeItem("email");
 			dispatch({
-				type: 'SET_AUTH_NORMAL',
+				type: SET_AUTH_NORMAL,
 				payload: {
 					isAuthenticated: false,
 					user: null,
@@ -131,7 +130,7 @@ const AuthContextProvider = ({ children }) => {
 	const logout = () => {
 		localStorage.removeItem("email");
 		dispatch({
-			type: 'SET_AUTH_NORMAL',
+			type: SET_AUTH_NORMAL,
 			payload: {
 				isAuthenticated: false,
 				user: null,
