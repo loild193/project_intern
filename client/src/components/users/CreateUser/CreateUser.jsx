@@ -20,7 +20,7 @@ function CreateUser({ open }) {
 		password: "",
 		email: "",
 		phone: "",
-		role: 2,
+		role: 0,
 		bophan_id: 1,
 	});
 	const {
@@ -159,9 +159,9 @@ function CreateUser({ open }) {
 										name="role"
 										onChange={handleChange}
 									>
-										<MenuItem value={0}>Admin</MenuItem>
+										<MenuItem value={0}>Staff</MenuItem>
 										<MenuItem value={1}>Manager</MenuItem>
-										<MenuItem value={2}>Staff</MenuItem>
+										<MenuItem value={2}>Admin</MenuItem>
 									</Select>
 								</FormControl>
 							</Grid>

@@ -12,13 +12,11 @@ const UserContextProvider = ({ children }) => {
 		user: null,
 		allUsers: [],
 	});
-	const { authState: { user }} = useContext(AuthContext);
 
 	const getAllUsers = async () => {
 		const response = await userAPI.getUsers();
 		let allUsers = 
 		response
-			.filter(allUser => allUser.id !== user.id)
 			.map(user => ({
 				id: user.id,
 				name: user.name,
@@ -27,6 +25,7 @@ const UserContextProvider = ({ children }) => {
 				part: changeBophanToName(user.bophan_id),
 				role: changeRoleToName(user.role),
 			}));
+			
 		dispatch({
 			type: SET_ALL_USERS,
 			payload: {
@@ -38,13 +37,13 @@ const UserContextProvider = ({ children }) => {
 	const getUserDetail = async (id) => {
 		const response = await userAPI.getUserWithId(id);
 		const userDetail = {
-			id: response.id,
-			bophan_id: response.bophan_id,
-			name: response.name,
-			email: response.email,
-			phone: response.phone,
-			role: response.phone,
-			created_at: response.created_at,
+			id: response[0].id,
+			bophan_id: response[0].bophan_id,
+			name: response[0].name,
+			email: response[0].email,
+			phone: response[0].phone,
+			role: response[0].phone,
+			created_at: response[0].created_at,
 		}
 		dispatch({
 			type: SET_USER_DETAIL,
@@ -64,11 +63,23 @@ const UserContextProvider = ({ children }) => {
 		});
 	}
 
+	const deleteUser = async id => {
+		await userAPI.deleteUser(id);
+		const newAllUsers = userState.allUsers.filter(allUser => allUser.id !== id);
+		dispatch({
+			type: SET_ALL_USERS,
+			payload: {
+				allUsers: newAllUsers,
+			}
+		})
+	}
+
 	const userContextData = {
 		userState,
 		getAllUsers,
 		getUserDetail,
 		updateUser,
+		deleteUser,
 	};
 
 	return (

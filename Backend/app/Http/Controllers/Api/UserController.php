@@ -135,7 +135,6 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->name = $request->get('name');
-        $user->password = $request->get('password');
         $user->role = $request->get('role');
         $user->bophan_id = $request->get('bophan_id');
         $user->phone = $request->get('phone');

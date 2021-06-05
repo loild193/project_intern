@@ -36,6 +36,11 @@ const userAPI = {
 
     return axiosClient.put(url, userDetail);
   },
+  deleteUser: id => {
+    const url = `/user/delete/${id}`;
+
+    return axiosClient.delete(url);
+  },
 };
 
 export default userAPI;

@@ -62,7 +62,6 @@ function App() {
         </UserContextProvider>
       </OptionsContextProvider>
     </AuthContextProvider>
-    
   );
 }
 
