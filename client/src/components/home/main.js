@@ -10,11 +10,13 @@ import clsx from 'clsx';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { OptionsContext } from "../../contexts/OptionsContext";
+import { UserContext } from "../../contexts/userContext";
 import { useStyles } from '../../customStyles/SidebarStyles';
 export default function PersistentDrawerLeft(props) {
-  const {convertStatus,status,handleFilter,getRequests,requestState:{
+  const {convertStatus,status,handleFilter,handleConvertIdToName,getRequests,requestState:{
     requests,
   }} = useContext(OptionsContext);
+  const { userState: { allUsers }, getAllUsersWithAdmin } = useContext(UserContext);
   const classes = useStyles();
   
   const history = useHistory();
@@ -22,8 +24,13 @@ export default function PersistentDrawerLeft(props) {
   const handleClick = (id)=>{
     history.push(`/detail/${id}`);
   }
-  useEffect(()=>getRequests(),[]);
+  useEffect(()=>{
+    getRequests();
+    getAllUsersWithAdmin();
+  },[]);
+  
   const data = handleFilter(status,requests);
+  
   return (
     <main
       className={clsx(classes.content, {
@@ -36,18 +43,23 @@ export default function PersistentDrawerLeft(props) {
           data.map((request,index)=>
            {
              var resConvert = convertStatus(request.status);
+             var user = handleConvertIdToName(request.user_id,allUsers);
+             if(user.length==0){
+               user.push({name:''})
+             }
+             
              return (
               <React.Fragment>
               <ListItem className={classes.listItemRequest}>
                 <ListItemAvatar >
                     <Avatar alt="" src=""/>
                 </ListItemAvatar>
-                <ListItemText 
+                <ListItemText onClick={()=>handleClick(request.id)}
                 
                 primary={
                   <React.Fragment>
                     <div className={classes.primaryTextRequest}>
-                      <h5>{request.title} created issue</h5>
+                      <h5>{user[0].name} created issue</h5>
                       <span style={{position:'absolute',top:'20px',right:'0px'}}>{request.due_date} months ago</span>
                     </div>
                   </React.Fragment>
@@ -56,7 +68,7 @@ export default function PersistentDrawerLeft(props) {
                   <React.Fragment>
                     <div className={classes.secondaryTextRequest}>
                       <div>
-                        <h4 onClick={()=>handleClick(request.id)}>LND-{request.user_id} [{request.user_id}] {request.description}</h4>
+                        <h4 >LND-{request.user_id} [{request.user_id}] {request.description}</h4>
                         <span>[Status:{resConvert}]</span>
                       </div>
                       <div className={classes.iconRequest}>

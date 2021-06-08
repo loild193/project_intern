@@ -11,9 +11,9 @@ const roles = [
 ]
 
 export const changeBophanToName = (num) => {
-	return bophans.filter(bophan => bophan.number === Number(num))[0].name;
+	// return bophans.filter(bophan => bophan.number === Number(num))[0].name;
 }
 
 export const changeRoleToName = (num) => {
-	return roles.filter(role => role.number === Number(num))[0].name;
+	// return roles.filter(role => role.number === Number(num))[0].name;
 }

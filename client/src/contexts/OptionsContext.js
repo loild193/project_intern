@@ -1,7 +1,7 @@
 import { createContext,useReducer,useState } from "react";
 import requestAPI from "../api/requestAPI";
 import {listRequests} from '../data/SideBar';
-import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS,EDIT_REQUEST } from "../lib/constant";
+import { SET_REQUEST,REQUEST_LOADED_SUCCESS,DETAIL_REQUEST_SUCCESS,EDIT_REQUEST,GET_COMMENTS } from "../lib/constant";
 import { requestReducer } from "../reducers/requestReducer";
 export const OptionsContext = createContext();
 
@@ -9,8 +9,10 @@ const OptionsContextProvider = ({children})=>{
   const [requestState, dispatch] = useReducer(requestReducer, {
     requestLoading: false,
     request: null,
+    comment:null,
     requests:[],
     detailRequest:[],
+    comments:[],
   });
   
   //state 
@@ -48,7 +50,18 @@ const OptionsContextProvider = ({children})=>{
       default: return 'All';
     }
   }
-
+  // handle convert id -> name
+  const handleConvertIdToName = (id,array)=>{
+    var userWithId = array.filter(user=>user.id===id);
+    return userWithId
+  }
+  // check user in comments ?
+  const checkUserInComments = (id,array,requestId)=>{
+		var arr = array.filter(ele=>ele.user_id === id);
+    var idComment = array.filter(ele=>ele.request_id==requestId&&ele.user_id===id);
+    
+    return [arr.length>0?1:0,arr.length>0?idComment[0].id:-1];
+	}
   //function handle click options
   const handleClickOptions = (state)=>{
     setStatus(state);
@@ -65,6 +78,7 @@ const OptionsContextProvider = ({children})=>{
       return res;
     }
   }
+
 
   // create new request
   const createRequest = async newRequest => {
@@ -89,7 +103,8 @@ const OptionsContextProvider = ({children})=>{
     }
   }
   // edit request
-  const editRequest = async request => {
+  const editRequest = async (request,content,id,comment,status) => {
+    // status == 0 -> createComment ==1 -> update
     try {
       dispatch({
         type: EDIT_REQUEST,
@@ -98,11 +113,19 @@ const OptionsContextProvider = ({children})=>{
         }
       });
       const response = await requestAPI.edit(request);
+      var response2;
+      if(status == 0){
+         response2 = await requestAPI.createComment(comment);
+      }
+      else{
+         response2 = await requestAPI.editComment({content,id});
+      }
       dispatch({
         type: EDIT_REQUEST,
         payload: {
           requestLoading: false,
           request: response[1],
+          comment:response2[1],
         }
       })
     } catch (error) {
@@ -128,11 +151,28 @@ const OptionsContextProvider = ({children})=>{
       console.log(error);
     }
   }
+  // get comments
+  const getComments = async (id)=>{
+    try {
+      const response = await requestAPI.getComments(id);
+      if(response){
+        dispatch({
+          type: GET_COMMENTS,
+          payload: {
+            comments:response,
+          }
+        })
+        
+      }
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
   // get detail request base on id request
   const getDetailRequest = async (id)=>{
     try{
       const response = await requestAPI.detailRequest(id);
-      console.log(response);
       if(response){
         dispatch({
           type: DETAIL_REQUEST_SUCCESS,
@@ -162,6 +202,9 @@ const OptionsContextProvider = ({children})=>{
     getRequests,
     getDetailRequest,
     convertPriority,
+    getComments,
+    handleConvertIdToName,
+    checkUserInComments
   }
 
   return (

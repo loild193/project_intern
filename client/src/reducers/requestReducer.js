@@ -1,10 +1,10 @@
-import { SET_REQUEST,REQUEST_LOADED_SUCCESS,REQUEST_LOADED_FAIL,DETAIL_REQUEST_SUCCESS,DETAIL_REQUEST_FAIL,EDIT_REQUEST } 
+import { SET_REQUEST,REQUEST_LOADED_SUCCESS,REQUEST_LOADED_FAIL,DETAIL_REQUEST_SUCCESS,DETAIL_REQUEST_FAIL,EDIT_REQUEST,GET_COMMENTS } 
 from "../lib/constant";
 
 export const requestReducer = (state, action) => {
 	const { 
 		type, 
-		payload: { requestLoading, request,requests,detailRequest } 
+		payload: { requestLoading, request,requests,detailRequest,comments,comment } 
 	} = action;
 
 	switch(type) {
@@ -13,12 +13,19 @@ export const requestReducer = (state, action) => {
 				...state,
 				requestLoading,
 				request,
+				comment,
 			}
 		case EDIT_REQUEST:
 			return{
 				...state,
 				requestLoading,
 				request,
+				comment,
+			}
+		case GET_COMMENTS:
+			return {
+				...state,
+				comments
 			}
 		case REQUEST_LOADED_SUCCESS:
 			return {

@@ -22,6 +22,9 @@ function EditRequest(props) {
 		category_id: 0,
 		priority: 0,
 	});
+	const [comment,setComment] = useState({
+		content:""
+	})
 	const { 
 		title, 
 		description, 
@@ -29,8 +32,13 @@ function EditRequest(props) {
 		category_id, 
 		priority, 
 	} = request;
+	const {getComments, requestState:{
+        comments,
+      }} = useContext(OptionsContext);
+	const {content} = comment;
 	const idRequest = props.match.params.id;
-	const { requestState: { requestLoading, detailRequest }, editRequest, getDetailRequest } = useContext(OptionsContext);
+	const { requestState: { requestLoading, detailRequest }, editRequest, getDetailRequest,checkUserInComments } = useContext(OptionsContext);
+	const {authState: { user }} = useContext(AuthContext);
 	const classes = useStyles();
 	const marginStyles = marginStyle();
 	const createRequestStyles = createRequestStyle();
@@ -44,13 +52,18 @@ function EditRequest(props) {
 
 	useEffect(() => {
 		getDetailRequest(props.match.params.id);
+		getComments(props.match.params.id);
 		setRequest(detailRequest);
 	}, []);
-
+	console.log(comments);
 	const handleChange = e => {
 		setRequest({
 			...request,
 			[e.target.name]: e.target.value,
+		});
+		setComment({
+			...comment,
+			[e.target.name]:e.target.value,
 		});
 	}
 
@@ -67,7 +80,15 @@ function EditRequest(props) {
 			...request,
 			id: idRequest,
 		};
-		await editRequest(updateRequest);
+		var [status,idComment] = checkUserInComments(user.id,comments,idRequest);
+		
+		const create_comment = {
+			user_id:user.id,
+			request_id:idRequest,
+			content:comment.content
+		}
+		await editRequest(updateRequest,comment.content,idComment,create_comment,status);
+		
 		setSuccess({
 			...success,
 			openAlert: true,
@@ -182,6 +203,21 @@ function EditRequest(props) {
 								</Select>
 							</FormControl>
 						</Grid>
+					</Grid>
+					<Grid item xs={12}>
+							<FormControl className={decriptionClassName}>
+								<InputLabel htmlFor="description">Comment</InputLabel>
+								<Input
+									id="comment"
+									name="content"
+									required
+									fullWidth
+									multiline
+									rows={3}
+									value={content}
+									onChange={handleChange}
+								/>
+							</FormControl>
 					</Grid>
 				</div>
 			</form>
