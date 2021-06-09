@@ -117,6 +117,11 @@ class UserController extends Controller
         ->get();
         return response()->json($users);
     }
+    public function index_2()
+    {
+        $users = User::all();
+        return response()->json($users);
+    }
     public function show($id)
     {
         $user = User::find($id);
