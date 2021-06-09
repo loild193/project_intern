@@ -21,8 +21,18 @@ const userAPI = {
 
     return axiosClient.get(url);
   },
+  getAllUsers: () => {
+    const url = 'alluser';
+
+    return axiosClient.get(url);
+  },
   getUserWithId: (id) => {
     const url = `user/index/${id}`;
+
+    return axiosClient.get(url);
+  },
+  getUserBaseOnId: (id) => {
+    const url = `user/detail/${id}`;
 
     return axiosClient.get(url);
   },

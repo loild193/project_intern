@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import userAPI from "../api/userAPI";
-import { SET_ALL_USERS, SET_USER_DETAIL } from "../lib/constant";
+import { GET_USER_DETAIL, SET_ALL_USERS, SET_USER_DETAIL,SET_ALL_USERS_WITH_ADMIN } from "../lib/constant";
 import { changeBophanToName, changeRoleToName } from "../lib/helper";
 import { userReducer } from "../reducers/userReducer";
 import { AuthContext } from "./authContext";
@@ -52,6 +52,26 @@ const UserContextProvider = ({ children }) => {
 			},
 		});
 	}
+	const getAllUsersWithAdmin = async () => {
+		const response = await userAPI.getAllUsers();
+		let allUsers = 
+		response
+			.map(user => ({
+				id: user.id,
+				name: user.name,
+				email: user.email,
+				phone: user.phone,
+				part: changeBophanToName(user.bophan_id),
+				role: changeRoleToName(user.role),
+			}));
+			
+		dispatch({
+			type: SET_ALL_USERS_WITH_ADMIN,
+			payload: {
+				allUsers,
+			},
+		});
+	}
 	
 	const updateUser = async (userDetail) => {
 		await userAPI.updateUser(userDetail);
@@ -80,6 +100,7 @@ const UserContextProvider = ({ children }) => {
 		getUserDetail,
 		updateUser,
 		deleteUser,
+		getAllUsersWithAdmin,
 	};
 
 	return (
